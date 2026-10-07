@@ -1,0 +1,6 @@
+# Sitio estático. Traefik se encarga del dominio y del certificado HTTPS.
+:80 {
+	encode gzip
+	root * /srv
+	file_server
+}

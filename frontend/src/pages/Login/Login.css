@@ -1,0 +1,277 @@
+
+.login-page {
+  --lh-navy-deep: #0b1f38;
+  --lh-navy: #123156;
+  --lh-blue: #2f6da8;
+  --lh-blue-light: #7fb1e0;
+  --lh-ice: #eaf3fc;
+  --lh-ice-dim: #b9cde4;
+
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(120% 120% at 15% 10%, var(--lh-navy) 0%, var(--lh-navy-deep) 55%, #061225 100%);
+  padding: 1.5rem;
+}
+
+.login-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.login-glow-a {
+  width: 480px;
+  height: 480px;
+  top: -160px;
+  left: -120px;
+  background: radial-gradient(circle, var(--lh-blue) 0%, transparent 70%);
+  animation: drift-a 22s ease-in-out infinite;
+}
+
+.login-glow-b {
+  width: 380px;
+  height: 380px;
+  bottom: -140px;
+  right: -100px;
+  background: radial-gradient(circle, var(--lh-blue-light) 0%, transparent 70%);
+  animation: drift-b 26s ease-in-out infinite;
+}
+
+.login-glow-c {
+  width: 300px;
+  height: 300px;
+  top: 40%;
+  right: 15%;
+  background: radial-gradient(circle, var(--lh-ice-dim) 0%, transparent 70%);
+  opacity: 0.25;
+  animation: drift-c 30s ease-in-out infinite;
+}
+
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, 30px) scale(1.08); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, -25px) scale(1.05); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-20px, 25px); }
+}
+
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 380px;
+  padding: 2.25rem 2rem;
+  border-radius: 18px;
+  background: rgba(20, 42, 71, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 20px 60px rgba(3, 10, 22, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  animation: card-in 0.5s ease-out;
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.login-brand h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--lh-ice);
+  letter-spacing: 0.01em;
+}
+
+.login-subtitle {
+  margin: 0.15rem 0 0;
+  color: var(--lh-ice-dim);
+  font-size: 0.85rem;
+}
+
+.learnhub-mark {
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.mark-ring {
+  fill: rgba(127, 177, 224, 0.08);
+  stroke: var(--lh-blue-light);
+  stroke-width: 1.5;
+  opacity: 0;
+  animation: ring-in 0.6s ease-out 0.05s forwards;
+}
+
+.mark-book {
+  fill: var(--lh-ice);
+  opacity: 0;
+  transform-origin: 36px 38px;
+}
+.mark-book-left {
+  animation: page-in 0.5s ease-out 0.3s forwards;
+  transform: rotateY(90deg);
+}
+.mark-book-right {
+  animation: page-in-r 0.5s ease-out 0.3s forwards;
+  transform: rotateY(-90deg);
+}
+
+.mark-cap {
+  fill: var(--lh-blue-light);
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: cap-drop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.55s forwards;
+}
+
+.mark-cap-string {
+  stroke: var(--lh-blue-light);
+  stroke-width: 1.3;
+  opacity: 0;
+  animation: fade-in 0.3s ease-out 0.85s forwards;
+}
+
+.mark-cap-tassel {
+  fill: var(--lh-ice);
+  opacity: 0;
+  animation: fade-in 0.3s ease-out 0.95s forwards;
+}
+
+@keyframes ring-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes page-in {
+  from { opacity: 0; transform: rotateY(90deg); }
+  to { opacity: 1; transform: rotateY(0deg); }
+}
+@keyframes page-in-r {
+  from { opacity: 0; transform: rotateY(-90deg); }
+  to { opacity: 1; transform: rotateY(0deg); }
+}
+@keyframes cap-drop {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.login-field label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--lh-ice-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.login-field input {
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--lh-ice);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-field input::placeholder {
+  color: rgba(234, 243, 252, 0.35);
+}
+
+.login-field input:focus {
+  outline: none;
+  border-color: var(--lh-blue-light);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(127, 177, 224, 0.22);
+}
+
+.login-error {
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(224, 90, 90, 0.15);
+  border: 1px solid rgba(224, 90, 90, 0.35);
+  color: #f3b4b4;
+  font-size: 0.82rem;
+}
+
+.login-card button[type='submit'] {
+  margin-top: 0.35rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(120deg, var(--lh-blue) 0%, var(--lh-blue-light) 50%, var(--lh-blue) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  color: var(--lh-ice);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-position 0.45s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  box-shadow: 0 8px 24px rgba(47, 109, 168, 0.35);
+}
+
+.login-card button[type='submit']:hover:not(:disabled) {
+  background-position: 100% 0%;
+  box-shadow: 0 10px 28px rgba(47, 109, 168, 0.5);
+}
+
+.login-card button[type='submit']:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.login-card button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-card button[type='submit']:focus-visible {
+  outline: 2px solid var(--lh-ice);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-glow-a, .login-glow-b, .login-glow-c,
+  .login-card, .mark-ring, .mark-book, .mark-cap,
+  .mark-cap-string, .mark-cap-tassel {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .login-card {
+    padding: 1.75rem 1.4rem;
+  }
+  .login-brand h1 {
+    font-size: 1.3rem;
+  }
+}

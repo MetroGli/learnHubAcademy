@@ -1,0 +1,6 @@
+﻿{
+  "nombre": "Java con Spring Boot",
+  "descripcion": "Curso de desarrollo backend con Java y Spring Boot",
+  "activo": true,
+  "profesorId": 2
+}

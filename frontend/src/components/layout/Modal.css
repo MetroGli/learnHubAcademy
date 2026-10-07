@@ -1,0 +1,84 @@
+.lh-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 1000;
+}
+
+.lh-modal {
+  background: #fff;
+  border-radius: 10px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.lh-modal-lg {
+  max-width: 780px;
+}
+
+.lh-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e3e6ee;
+}
+
+.lh-modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.lh-modal-close {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #4b5468;
+}
+
+.lh-modal-body {
+  padding: 1.25rem;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  color: #1c2333;
+}
+
+.lh-modal-body p {
+  margin: 0 0 0.9rem;
+  line-height: 1.5;
+}
+
+.lh-team-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lh-team-item {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #e3e6ee;
+  padding-bottom: 0.6rem;
+}
+
+.lh-team-item strong {
+  font-size: 0.95rem;
+}
+
+.lh-team-item span {
+  font-size: 0.82rem;
+  color: #4b5468;
+}

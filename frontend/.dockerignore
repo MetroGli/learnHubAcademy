@@ -1,0 +1,5 @@
+node_modules
+dist
+# Los .env locales no deben entrar a la imagen (podrían fijar VITE_API_URL=localhost)
+.env
+.env.*

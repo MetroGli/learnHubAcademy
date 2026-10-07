@@ -1,0 +1,28 @@
+# Página de inicio del dominio principal: elige entre LearnHub Academy y LearnHub Docs.
+#
+#   docker compose up -d
+#
+# Lee la variable DOMAIN del archivo ".env" (cópialo desde ".env.example").
+
+name: learnhub-landing
+
+services:
+  web:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=learnhub-proxy"
+      - "traefik.http.routers.landing.rule=Host(`${DOMAIN:?Debes definir DOMAIN en el archivo .env, ej. tudominio.com}`)"
+      - "traefik.http.routers.landing.entrypoints=websecure"
+      - "traefik.http.routers.landing.tls.certresolver=le"
+      - "traefik.http.services.landing.loadbalancer.server.port=80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./site:/srv:ro
+    networks:
+      - learnhub-proxy
+
+networks:
+  learnhub-proxy:
+    external: true

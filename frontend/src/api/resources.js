@@ -1,0 +1,12 @@
+import { createCrudService } from './crudServiceFactory';
+export const usuarioService = createCrudService('/api/usuarios');
+export const cursoService = createCrudService('/api/cursos');
+export const moduloService = createCrudService('/api/modulos');
+export const leccionService = createCrudService('/api/lecciones');
+export const recursoService = createCrudService('/api/recursos');
+export const inscripcionService = createCrudService('/api/inscripciones');
+export const progresoService = createCrudService('/api/progresos');
+export const evaluacionService = createCrudService('/api/evaluaciones');
+export const preguntaService = createCrudService('/api/preguntas');
+export const respuestaService = createCrudService('/api/respuestas');
+export const calificacionService = createCrudService('/api/calificaciones');

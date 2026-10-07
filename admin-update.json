@@ -1,0 +1,7 @@
+﻿{
+  "nombre": "Admin",
+  "apellido": "LearnHub",
+  "email": "admin@learnhub.com",
+  "password": "admin123",
+  "rol": "ADMINISTRADOR"
+}

@@ -1,0 +1,21 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: learnhub-postgres
+
+    environment:
+      POSTGRES_DB: learnhub
+      POSTGRES_USER: learnhub_user
+      POSTGRES_PASSWORD: learnhub_dev_password
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

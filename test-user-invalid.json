@@ -1,0 +1,7 @@
+﻿{
+  "nombre": "Test",
+  "apellido": "Usuario",
+  "email": "test@learnhub.com",
+  "password": "123",
+  "rol": "ESTUDIANTE"
+}

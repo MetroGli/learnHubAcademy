@@ -1,0 +1,70 @@
+# LearnHub Academy - producción (servidor con Traefik)
+#
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Lee las variables del archivo ".env" (cópialo desde ".env.example").
+# Este archivo NO reemplaza a docker-compose.yml, que sigue sirviendo para desarrollo local.
+
+name: learnhub-academy
+
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-learnhub}
+      POSTGRES_USER: ${DB_USER:-learnhub_user}
+      POSTGRES_PASSWORD: "${DB_PASSWORD:?Debes definir DB_PASSWORD en el archivo .env}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-learnhub_user} -d ${DB_NAME:-learnhub}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - academy
+
+  api:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    environment:
+      # Spring convierte estas variables en sus propiedades (spring.datasource.url, jwt.secret...)
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME:-learnhub}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-learnhub_user}
+      SPRING_DATASOURCE_PASSWORD: "${DB_PASSWORD:?Debes definir DB_PASSWORD en el archivo .env}"
+      JWT_SECRET: "${JWT_SECRET:?Debes definir JWT_SECRET en el archivo .env (mínimo 32 caracteres)}"
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+      # Opciones de Java: memoria máxima + no imprimir cada consulta SQL en los logs
+      JAVA_TOOL_OPTIONS: "${API_JAVA_OPTS:--Xmx384m} -Dspring.jpa.show-sql=false -Dspring.jpa.properties.hibernate.format_sql=false"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - academy
+
+  web:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=learnhub-proxy"
+      - "traefik.http.routers.academy.rule=Host(`${ACADEMY_HOST:?Debes definir ACADEMY_HOST en el archivo .env, ej. academy.tudominio.com}`)"
+      - "traefik.http.routers.academy.entrypoints=websecure"
+      - "traefik.http.routers.academy.tls.certresolver=le"
+      - "traefik.http.services.academy.loadbalancer.server.port=80"
+    depends_on:
+      - api
+    networks:
+      - academy
+      - learnhub-proxy
+
+networks:
+  academy:
+  learnhub-proxy:
+    external: true
+
+volumes:
+  pgdata:

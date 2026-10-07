@@ -1,0 +1,116 @@
+.lh-footer {
+  background: #0b1f38;
+  color: #b9cde4;
+}
+
+.lh-footer-top {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 48px 32px;
+
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  gap: 32px;
+}
+
+.lh-footer-brand-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.lh-footer-brand-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.lh-footer-brand p {
+  margin: 0;
+  color: #8fa8c9;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  max-width: 260px;
+}
+
+.lh-footer-column h4 {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.lh-footer-column ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lh-footer-column a,
+.lh-footer-link-btn {
+  color: #b9cde4;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.15s ease;
+}
+
+.lh-footer-column a:hover,
+.lh-footer-link-btn:hover {
+  color: #4a9fe8;
+}
+
+/* Botón con apariencia de enlace (abre los modales de Quiénes somos, Términos y Privacidad) */
+.lh-footer-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lh-footer-column a:focus-visible,
+.lh-footer-link-btn:focus-visible {
+  outline: 2px solid #4a9fe8;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.lh-footer-bottom {
+  border-top: 1px solid rgba(185, 205, 228, 0.15);
+  padding: 20px 48px 28px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #7891b3;
+}
+
+@media (max-width: 900px) {
+  .lh-footer-top {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .lh-footer-top {
+    grid-template-columns: 1fr;
+    padding: 32px 20px;
+  }
+
+  .lh-footer-bottom {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+}

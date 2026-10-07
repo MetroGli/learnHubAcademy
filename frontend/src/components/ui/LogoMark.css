@@ -1,0 +1,153 @@
+.lh-logo-mark {
+  --logo-navy: #0b1f38;
+  --logo-blue: #1c5fa8;
+  --logo-blue-light: #4a9fe8;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.lh-mark-ring {
+  fill: rgba(28, 95, 168, 0.06);
+  stroke: var(--logo-navy);
+  stroke-width: 2.5;
+}
+
+.lh-mark-book {
+  fill: var(--logo-blue-light);
+}
+
+.lh-mark-book-left {
+  fill: var(--logo-blue);
+}
+
+.lh-mark-book-right {
+  fill: var(--logo-blue-light);
+}
+
+.lh-mark-cap {
+  fill: var(--logo-navy);
+}
+
+.lh-mark-cap-string {
+  stroke: var(--logo-navy);
+  stroke-width: 1.4;
+}
+
+.lh-mark-cap-tassel {
+  fill: var(--logo-navy);
+}
+
+.lh-logo-mark.animated .lh-mark-ring {
+  opacity: 0;
+  animation: lh-ring-in 0.5s ease-out 0.05s forwards;
+}
+
+.lh-logo-mark.animated .lh-mark-book {
+  opacity: 0;
+  transform-origin: 36px 38px;
+}
+
+.lh-logo-mark.animated .lh-mark-book-left {
+  animation: lh-page-in 0.4s ease-out 0.25s forwards;
+  transform: rotateY(90deg);
+}
+
+.lh-logo-mark.animated .lh-mark-book-right {
+  animation: lh-page-in-r 0.4s ease-out 0.25s forwards;
+  transform: rotateY(-90deg);
+}
+
+.lh-logo-mark.animated .lh-mark-cap {
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: lh-cap-drop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.45s forwards;
+}
+
+.lh-logo-mark.animated .lh-mark-cap-string,
+.lh-logo-mark.animated .lh-mark-cap-tassel {
+  opacity: 0;
+  animation: lh-fade-in 0.3s ease-out 0.7s forwards;
+}
+
+@keyframes lh-ring-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lh-page-in {
+  from {
+    opacity: 0;
+    transform: rotateY(90deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes lh-page-in-r {
+  from {
+    opacity: 0;
+    transform: rotateY(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes lh-cap-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lh-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lh-logo-mark.animated .lh-mark-ring,
+  .lh-logo-mark.animated .lh-mark-book,
+  .lh-logo-mark.animated .lh-mark-cap,
+  .lh-logo-mark.animated .lh-mark-cap-string,
+  .lh-logo-mark.animated .lh-mark-cap-tassel {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lh-logo-mark .lh-mark-cap,
+.lh-logo-mark .lh-mark-cap-string,
+.lh-logo-mark .lh-mark-cap-tassel {
+  transform-origin: 36px 22px;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lh-logo-mark:hover .lh-mark-cap,
+.lh-logo-mark:hover .lh-mark-cap-string,
+.lh-logo-mark:hover .lh-mark-cap-tassel {
+  transform: rotate(-8deg) translateY(-2px);
+}
+
+.lh-logo-mark:hover .lh-mark-ring {
+  transition: stroke 0.35s ease;
+  stroke: var(--logo-blue);
+}

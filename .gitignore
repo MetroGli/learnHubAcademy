@@ -1,0 +1,48 @@
+# ==========================================================
+# LearnHub - Git Ignore
+# ==========================================================
+
+# Java / Maven
+backend/target/
+*.class
+*.jar
+*.war
+
+# Spring Boot - configuración local
+application-local.properties
+application-local.yml
+
+# Node / React
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp

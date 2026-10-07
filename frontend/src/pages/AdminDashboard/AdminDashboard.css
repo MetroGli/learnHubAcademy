@@ -1,0 +1,278 @@
+.admin-dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  background:
+    radial-gradient(
+      100% 80% at 0% 0%,
+      rgba(47, 109, 168, 0.12) 0%,
+      transparent 55%
+    ),
+    #f5f8fc;
+
+  color: #172b44;
+}
+
+.admin-header {
+  min-height: 78px;
+  padding: 0 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(18, 49, 86, 0.1);
+}
+
+.admin-welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-welcome span {
+  color: #71849a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.admin-welcome h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.admin-welcome small {
+  color: #56698a;
+}
+
+.logout-button {
+  background: transparent;
+  border: 1px solid rgba(18, 49, 86, 0.2);
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: #172b44;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 32px 48px 64px;
+}
+
+.admin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.admin-section-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.admin-new-button {
+  background: #2f6da8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 64px 0;
+  color: #56698a;
+}
+
+.admin-state.error {
+  color: #b3261e;
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px solid #d7e3f0;
+  border-top-color: #2f6da8;
+  animation: admin-spin 0.8s linear infinite;
+}
+
+@keyframes admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(11, 31, 56, 0.04);
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 14px 20px;
+  background: #eaf3fc;
+  color: #2f6da8;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.admin-table td {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(18, 49, 86, 0.06);
+}
+
+.admin-rol-badge {
+  background: #eaf3fc;
+  color: #2f6da8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.admin-estado-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.admin-estado-badge.activo {
+  background: #e3f6e8;
+  color: #1e7d3c;
+}
+
+.admin-estado-badge.inactivo {
+  background: #fdecea;
+  color: #b3261e;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-actions button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: #eaf3fc;
+  color: #2f6da8;
+}
+
+.admin-delete-button {
+  background: #fdecea !important;
+  color: #b3261e !important;
+}
+
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 31, 56, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.admin-modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.admin-modal h3 {
+  margin: 0 0 20px;
+}
+
+.admin-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #56698a;
+}
+
+.admin-modal input,
+.admin-modal select {
+  padding: 10px 12px;
+  border: 1px solid rgba(18, 49, 86, 0.15);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #172b44;
+}
+
+.admin-form-error {
+  color: #b3261e;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.admin-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.admin-form-actions button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-form-actions button[type='submit'] {
+  background: #2f6da8;
+  color: white;
+}
+
+.admin-cancel-button {
+  background: transparent !important;
+  color: #56698a !important;
+}
+/* ----- Pestañas de gestión ----- */
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.admin-new-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-celda-detalle {
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: #71849a;
+}

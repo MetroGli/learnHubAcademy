@@ -1,0 +1,237 @@
+.curso-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  background:
+    radial-gradient(
+      100% 80% at 0% 0%,
+      rgba(47, 109, 168, 0.12) 0%,
+      transparent 55%
+    ),
+    #f5f8fc;
+
+  color: #172b44;
+}
+
+.curso-content {
+  flex: 1;
+  padding: 32px 48px 64px;
+}
+
+.curso-back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #2f6da8;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.curso-back-link:hover {
+  text-decoration: underline;
+}
+
+.curso-header h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+
+.curso-descripcion {
+  color: #56698a;
+  max-width: 640px;
+  margin: 0 0 32px;
+}
+
+.curso-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 64px 0;
+  color: #56698a;
+}
+
+.curso-state.error {
+  color: #b3261e;
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px solid #d7e3f0;
+  border-top-color: #2f6da8;
+  animation: curso-spin 0.8s linear infinite;
+}
+
+@keyframes curso-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.curso-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.curso-modulos h2,
+.curso-evaluaciones h2 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+}
+
+.curso-empty {
+  color: #8598b4;
+  font-size: 0.9rem;
+}
+
+.modulos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modulo-card {
+  background: #ffffff;
+  border: 1px solid rgba(18, 49, 86, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modulo-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.modulo-orden {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #7fb1e0;
+  margin-bottom: 4px;
+}
+
+.modulo-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.modulo-toggle {
+  font-size: 1.4rem;
+  color: #2f6da8;
+  line-height: 1;
+}
+
+.modulo-body {
+  padding: 0 20px 20px;
+  border-top: 1px solid rgba(18, 49, 86, 0.08);
+}
+
+.modulo-descripcion {
+  color: #56698a;
+  margin: 16px 0;
+}
+
+.lecciones-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.leccion-item {
+  border-left: 3px solid #7fb1e0;
+  padding: 4px 0 4px 16px;
+}
+
+.leccion-item h4 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+}
+
+.leccion-item p {
+  margin: 0 0 8px;
+  color: #56698a;
+  font-size: 0.9rem;
+}
+
+.recursos-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recursos-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.recursos-list a {
+  color: #2f6da8;
+}
+
+.recurso-tipo {
+  color: #8598b4;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.evaluaciones-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.evaluacion-card {
+  background: #ffffff;
+  border: 1px solid rgba(18, 49, 86, 0.1);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.evaluacion-card h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.evaluacion-card p {
+  margin: 0 0 8px;
+  color: #56698a;
+  font-size: 0.9rem;
+}
+
+.evaluacion-porcentaje {
+  display: inline-block;
+  background: #eaf3fc;
+  color: #2f6da8;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+@media (max-width: 900px) {
+  .curso-main {
+    grid-template-columns: 1fr;
+  }
+}

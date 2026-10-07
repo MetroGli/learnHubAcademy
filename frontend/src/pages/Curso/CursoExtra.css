@@ -1,0 +1,322 @@
+/* Estilos añadidos al detalle del curso: avance, gestión, evaluaciones y quiz */
+
+.curso-header h1 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.curso-badge-inactivo {
+  font-size: 0.7rem;
+}
+
+/* ----- Avance del estudiante ----- */
+.curso-avance {
+  max-width: 560px;
+  margin-bottom: 28px;
+  padding: 18px 22px;
+
+  background: #ffffff;
+  border: 1px solid rgba(18, 49, 86, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(11, 31, 56, 0.05);
+}
+
+.curso-avance .ui-progress-label {
+  font-size: 0.85rem;
+}
+
+.curso-avance-datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #56698a;
+}
+
+.curso-avance-datos strong {
+  color: #172b44;
+}
+
+.curso-avance .ui-error {
+  margin: 10px 0 0;
+}
+
+/* ----- Contenido ----- */
+.curso-aviso {
+  margin-bottom: 14px;
+}
+
+.curso-empty {
+  color: #71849a;
+  font-size: 0.9rem;
+}
+
+.modulo-meta {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.76rem;
+  color: #71849a;
+}
+
+.curso-acciones-modulo {
+  margin-bottom: 16px;
+}
+
+.curso-acciones-leccion {
+  margin-top: 10px;
+}
+
+.leccion-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2f6da8;
+  cursor: pointer;
+}
+
+.leccion-check input {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.curso-mini-acciones {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.curso-mini-acciones button {
+  padding: 2px 8px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #2f6da8;
+  cursor: pointer;
+}
+
+.curso-mini-acciones button:hover {
+  background: #eaf3fc;
+}
+
+.curso-mini-acciones button.peligro {
+  color: #b3261e;
+}
+
+.curso-mini-acciones button.peligro:hover {
+  background: #fdecea;
+}
+
+/* ----- Evaluaciones ----- */
+.evaluacion-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.evaluacion-info {
+  flex: 1 1 260px;
+}
+
+.evaluacion-datos {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.evaluacion-preguntas {
+  font-size: 0.78rem;
+  color: #71849a;
+}
+
+/* ----- Quiz ----- */
+.quiz-descripcion {
+  margin: 0 0 14px;
+  color: #56698a;
+}
+
+.quiz-preguntas,
+.quiz-revision {
+  margin: 0 0 18px;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.quiz-enunciado {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.quiz-opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.quiz-opcion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+
+  background: #f5f8fc;
+  border: 1px solid rgba(18, 49, 86, 0.12);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.quiz-opcion:hover {
+  background: #eaf3fc;
+}
+
+.quiz-nota {
+  margin: 0 0 6px;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #1c5fa8;
+}
+
+.quiz-nota span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #71849a;
+}
+
+.quiz-revision li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quiz-revision li.acierto span {
+  color: #1c6b3c;
+}
+
+.quiz-revision li.fallo span {
+  color: #b3261e;
+}
+
+/* ----- Administrador de preguntas ----- */
+.pm-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pm-pregunta {
+  padding: 14px 16px;
+  border: 1px solid rgba(18, 49, 86, 0.12);
+  border-radius: 12px;
+}
+
+.pm-pregunta-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pm-pregunta-head strong {
+  flex: 1 1 240px;
+}
+
+.pm-aviso {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  color: #8a5a00;
+}
+
+.pm-respuestas {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pm-respuestas li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #f5f8fc;
+}
+
+.pm-respuestas li.correcta {
+  background: #e8f6ee;
+  color: #1c6b3c;
+  font-weight: 600;
+}
+
+/* ----- Estudiantes ----- */
+.curso-email {
+  font-size: 0.76rem;
+  color: #71849a;
+}
+
+.curso-celda-progreso {
+  min-width: 130px;
+}
+
+.curso-pct {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.74rem;
+  color: #71849a;
+}
+
+.curso-th-peso {
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.curso-nota-btn {
+  min-width: 52px;
+  padding: 5px 10px;
+
+  background: #f5f8fc;
+  border: 1px dashed rgba(28, 95, 168, 0.4);
+  border-radius: 8px;
+
+  font: inherit;
+  font-weight: 600;
+  color: #1c5fa8;
+  cursor: pointer;
+}
+
+.curso-nota-btn:hover {
+  background: #eaf3fc;
+}
+
+.curso-nota-pequena {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  color: #71849a;
+}
+
+@media (max-width: 640px) {
+  .curso-content {
+    padding: 24px 16px 48px;
+  }
+}

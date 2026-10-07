@@ -1,0 +1,6 @@
+﻿{
+  "nombre": "Java y PostgreSQL",
+  "descripcion": "Persistencia de datos con Spring Boot y PostgreSQL",
+  "activo": true,
+  "profesorId": 2
+}
