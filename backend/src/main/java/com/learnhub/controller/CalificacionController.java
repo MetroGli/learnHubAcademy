@@ -4,6 +4,7 @@ import com.learnhub.dto.CalificacionRequest;
 import com.learnhub.dto.CalificacionResponse;
 import com.learnhub.service.CalificacionService;
 import jakarta.validation.Valid;
+import com.learnhub.security.UsuarioActual;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class CalificacionController {
 
     private final CalificacionService calificacionService;
+    private final UsuarioActual usuarioActual;
 
     public CalificacionController(
-            CalificacionService calificacionService) {
+            CalificacionService calificacionService,
+            UsuarioActual usuarioActual) {
         this.calificacionService = calificacionService;
+        this.usuarioActual = usuarioActual;
     }
 
     @PostMapping
     public ResponseEntity<CalificacionResponse> crear(
             @Valid @RequestBody CalificacionRequest request) {
+
+        usuarioActual.exigirPropio(request.getUsuarioId());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -39,7 +45,7 @@ public class CalificacionController {
     @GetMapping
     public ResponseEntity<List<CalificacionResponse>> listar() {
         return ResponseEntity.ok(
-                calificacionService.listarCalificaciones());
+                soloPropios(calificacionService.listarCalificaciones()));
     }
 
     @GetMapping("/{id}")
@@ -47,13 +53,16 @@ public class CalificacionController {
             @PathVariable Long id) {
 
         return ResponseEntity.ok(
-                calificacionService.buscarCalificacionPorId(id));
+                propio(calificacionService.buscarCalificacionPorId(id)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CalificacionResponse> actualizar(
             @PathVariable Long id,
             @Valid @RequestBody CalificacionRequest request) {
+
+        usuarioActual.exigirPropio(calificacionService.buscarCalificacionPorId(id).getUsuarioId());
+        usuarioActual.exigirPropio(request.getUsuarioId());
 
         return ResponseEntity.ok(
                 calificacionService.actualizarCalificacion(id, request));
@@ -65,5 +74,22 @@ public class CalificacionController {
         calificacionService.eliminarCalificacion(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    private List<CalificacionResponse> soloPropios(List<CalificacionResponse> registros) {
+        if (!usuarioActual.esEstudiante()) {
+            return registros;
+        }
+
+        Long id = usuarioActual.obtener().getId();
+
+        return registros.stream()
+                .filter(r -> id.equals(r.getUsuarioId()))
+                .toList();
+    }
+
+    private CalificacionResponse propio(CalificacionResponse registro) {
+        usuarioActual.exigirPropio(registro.getUsuarioId());
+        return registro;
     }
 }

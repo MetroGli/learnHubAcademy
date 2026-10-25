@@ -11,6 +11,7 @@ import com.learnhub.repository.UsuarioRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.learnhub.exception.ConflictoException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +32,12 @@ public class InscripcionService {
 
     public InscripcionResponse crearInscripcion(
             InscripcionRequest request) {
+
+        if (inscripcionRepository.existsByUsuarioIdAndCursoId(
+                request.getUsuarioId(), request.getCursoId())) {
+            throw new ConflictoException(
+                    "El usuario ya está inscrito en este curso.");
+        }
 
         Usuario usuario = usuarioRepository.findById(
                         request.getUsuarioId())
@@ -76,6 +83,12 @@ public class InscripcionService {
         Inscripcion inscripcion = inscripcionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "No se encontró la inscripción con id: " + id));
+
+        if (inscripcionRepository.existsByUsuarioIdAndCursoIdAndIdNot(
+                request.getUsuarioId(), request.getCursoId(), id)) {
+            throw new ConflictoException(
+                    "El usuario ya está inscrito en este curso.");
+        }
 
         Usuario usuario = usuarioRepository.findById(
                         request.getUsuarioId())

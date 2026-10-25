@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -37,6 +38,24 @@ public class SecurityConfig {
                 ).permitAll()
                 .requestMatchers("/api/usuarios/**")
                     .hasRole("ADMINISTRADOR")
+                // Contenido de los cursos: lo leen todos, lo gestionan profesores y administradores
+                .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
+                .requestMatchers(
+                    "/api/cursos/**",
+                    "/api/modulos/**",
+                    "/api/lecciones/**",
+                    "/api/recursos/**",
+                    "/api/evaluaciones/**",
+                    "/api/preguntas/**",
+                    "/api/respuestas/**"
+                ).hasAnyRole("ADMINISTRADOR", "PROFESOR")
+                // El estudiante crea y actualiza sus propios registros (lo valida UsuarioActual),
+                // pero no puede borrarlos
+                .requestMatchers(HttpMethod.DELETE,
+                    "/api/inscripciones/**",
+                    "/api/progresos/**",
+                    "/api/calificaciones/**"
+                ).hasAnyRole("ADMINISTRADOR", "PROFESOR")
                 .anyRequest().authenticated()
             )
             .exceptionHandling(e -> e

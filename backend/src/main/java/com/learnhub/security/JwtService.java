@@ -1,6 +1,9 @@
 package com.learnhub.security;
 
 import io.jsonwebtoken.Claims;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import io.jsonwebtoken.Jwts;
 import java.nio.charset.StandardCharsets;
 import io.jsonwebtoken.security.Keys;
@@ -20,6 +23,10 @@ public class JwtService {
 
     @Value("${jwt.expiration}")
     private long expiration;
+
+    private static final Logger log = LoggerFactory.getLogger(JwtService.class);
+
+    private SecretKey signingKey;
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
@@ -72,8 +79,18 @@ public class JwtService {
     }
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+        return signingKey;
+    }
 
-        return Keys.hmacShaKeyFor(keyBytes);
+    @PostConstruct
+    void iniciarClave() {
+        if (secret == null || secret.isBlank()) {
+            log.warn("JWT_SECRET no está definido: se usa una clave aleatoria. "
+                    + "Las sesiones se cerrarán al reiniciar el backend.");
+            signingKey = Jwts.SIG.HS256.key().build();
+            return;
+        }
+
+        signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 }

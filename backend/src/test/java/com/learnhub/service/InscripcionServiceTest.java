@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import com.learnhub.dto.InscripcionRequest;
@@ -18,6 +19,7 @@ import com.learnhub.dto.InscripcionResponse;
 import com.learnhub.entity.Curso;
 import com.learnhub.entity.Inscripcion;
 import com.learnhub.entity.Usuario;
+import com.learnhub.exception.ConflictoException;
 import com.learnhub.repository.CursoRepository;
 import com.learnhub.repository.InscripcionRepository;
 import com.learnhub.repository.UsuarioRepository;
@@ -34,5 +36,6 @@ class InscripcionServiceTest {
  @Test void shouldUpdateInscripcion(){Inscripcion i=new Inscripcion();InscripcionRequest q=req(3L,4L,false);Usuario u=org.mockito.Mockito.mock(Usuario.class);Curso c=org.mockito.Mockito.mock(Curso.class);when(inscripcionRepository.findById(5L)).thenReturn(Optional.of(i));when(usuarioRepository.findById(3L)).thenReturn(Optional.of(u));when(cursoRepository.findById(4L)).thenReturn(Optional.of(c));when(inscripcionRepository.save(i)).thenReturn(i);InscripcionResponse r=inscripcionService.actualizarInscripcion(5L,q);assertFalse(r.isActiva());assertSame(u,i.getUsuario());assertSame(c,i.getCurso());}
  @Test void shouldDeleteExistingInscripcion(){when(inscripcionRepository.existsById(5L)).thenReturn(true);inscripcionService.eliminarInscripcion(5L);verify(inscripcionRepository).deleteById(5L);}
  @Test void shouldThrowWhenDeletingMissingInscripcion(){when(inscripcionRepository.existsById(5L)).thenReturn(false);IllegalArgumentException e=assertThrows(IllegalArgumentException.class,()->inscripcionService.eliminarInscripcion(5L));assertEquals("No se encontró la inscripción con id: 5",e.getMessage());}
+ @Test void shouldRejectDuplicateInscripcion(){when(inscripcionRepository.existsByUsuarioIdAndCursoId(1L,2L)).thenReturn(true);ConflictoException e=assertThrows(ConflictoException.class,()->inscripcionService.crearInscripcion(req(1L,2L,true)));assertEquals("El usuario ya está inscrito en este curso.",e.getMessage());verify(inscripcionRepository,never()).save(any(Inscripcion.class));}
  private InscripcionRequest req(Long u,Long c,boolean a){InscripcionRequest r=new InscripcionRequest();r.setUsuarioId(u);r.setCursoId(c);r.setActiva(a);return r;}
 }
