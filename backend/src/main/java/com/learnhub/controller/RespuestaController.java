@@ -16,30 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Provides REST endpoints for answer management.
- */
 @RestController
 @RequestMapping("/api/respuestas")
 public class RespuestaController {
 
     private final RespuestaService respuestaService;
 
-    /**
-     * Creates the answer controller.
-     *
-     * @param respuestaService answer service
-     */
     public RespuestaController(RespuestaService respuestaService) {
         this.respuestaService = respuestaService;
     }
 
-    /**
-     * Creates an answer.
-     *
-     * @param request answer data
-     * @return created answer
-     */
     @PostMapping
     public ResponseEntity<RespuestaResponse> crear(
             @Valid @RequestBody RespuestaRequest request) {
@@ -49,22 +35,11 @@ public class RespuestaController {
                 .body(respuestaService.crearRespuesta(request));
     }
 
-    /**
-     * Lists answers.
-     *
-     * @return list of answers
-     */
     @GetMapping
     public ResponseEntity<List<RespuestaResponse>> listar() {
         return ResponseEntity.ok(respuestaService.listarRespuestas());
     }
 
-    /**
-     * Gets an answer by identifier.
-     *
-     * @param id answer identifier
-     * @return answer
-     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaResponse> buscar(
             @PathVariable Long id) {
@@ -73,13 +48,6 @@ public class RespuestaController {
                 respuestaService.buscarRespuestaPorId(id));
     }
 
-    /**
-     * Updates an answer.
-     *
-     * @param id answer identifier
-     * @param request updated answer data
-     * @return updated answer
-     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaResponse> actualizar(
             @PathVariable Long id,
@@ -89,12 +57,6 @@ public class RespuestaController {
                 respuestaService.actualizarRespuesta(id, request));
     }
 
-    /**
-     * Deletes an answer.
-     *
-     * @param id answer identifier
-     * @return empty response
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
 

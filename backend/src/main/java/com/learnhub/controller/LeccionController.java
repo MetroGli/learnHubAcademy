@@ -16,30 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Provides REST endpoints for lesson management.
- */
 @RestController
 @RequestMapping("/api/lecciones")
 public class LeccionController {
 
     private final LeccionService leccionService;
 
-    /**
-     * Creates the lesson controller.
-     *
-     * @param leccionService lesson service
-     */
     public LeccionController(LeccionService leccionService) {
         this.leccionService = leccionService;
     }
 
-    /**
-     * Creates a lesson.
-     *
-     * @param request lesson data
-     * @return created lesson
-     */
     @PostMapping
     public ResponseEntity<LeccionResponse> crear(
             @Valid @RequestBody LeccionRequest request) {
@@ -49,22 +35,11 @@ public class LeccionController {
                 .body(leccionService.crearLeccion(request));
     }
 
-    /**
-     * Lists lessons.
-     *
-     * @return list of lessons
-     */
     @GetMapping
     public ResponseEntity<List<LeccionResponse>> listar() {
         return ResponseEntity.ok(leccionService.listarLecciones());
     }
 
-    /**
-     * Gets a lesson by identifier.
-     *
-     * @param id lesson identifier
-     * @return lesson
-     */
     @GetMapping("/{id}")
     public ResponseEntity<LeccionResponse> buscar(
             @PathVariable Long id) {
@@ -73,13 +48,6 @@ public class LeccionController {
                 leccionService.buscarLeccionPorId(id));
     }
 
-    /**
-     * Updates a lesson.
-     *
-     * @param id lesson identifier
-     * @param request updated lesson data
-     * @return updated lesson
-     */
     @PutMapping("/{id}")
     public ResponseEntity<LeccionResponse> actualizar(
             @PathVariable Long id,
@@ -89,12 +57,6 @@ public class LeccionController {
                 leccionService.actualizarLeccion(id, request));
     }
 
-    /**
-     * Deletes a lesson.
-     *
-     * @param id lesson identifier
-     * @return empty response
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
 

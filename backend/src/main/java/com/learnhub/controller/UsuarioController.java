@@ -17,30 +17,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Provides REST endpoints for user management.
- */
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    /**
-     * Creates the user controller with its required service.
-     *
-     * @param usuarioService service used to manage users
-     */
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 
-    /**
-     * Creates a new user.
-     *
-     * @param request user creation data
-     * @return created user data
-     */
     @PostMapping
     public ResponseEntity<UsuarioResponse> crearUsuario(
             @Valid @RequestBody UsuarioRequest request) {
@@ -60,11 +46,6 @@ public class UsuarioController {
                 .body(convertirAResponse(usuarioGuardado));
     }
 
-    /**
-     * Retrieves all registered users.
-     *
-     * @return list of user data
-     */
     @GetMapping
     public ResponseEntity<List<UsuarioResponse>> listarUsuarios() {
 
@@ -76,12 +57,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
-    /**
-     * Retrieves a user by its identifier.
-     *
-     * @param id user identifier
-     * @return user data
-     */
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponse> buscarUsuarioPorId(
             @PathVariable Long id) {
@@ -92,13 +67,6 @@ public class UsuarioController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /**
-     * Updates an existing user.
-     *
-     * @param id user identifier
-     * @param request updated user data
-     * @return updated user data
-     */
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponse> actualizarUsuario(
             @PathVariable Long id,
@@ -117,12 +85,6 @@ public class UsuarioController {
         return ResponseEntity.ok(convertirAResponse(usuarioActualizado));
     }
 
-    /**
-     * Deletes an existing user.
-     *
-     * @param id user identifier
-     * @return empty response
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
 
@@ -131,12 +93,6 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * Converts a user entity to a response DTO.
-     *
-     * @param usuario user entity
-     * @return user response data
-     */
     private UsuarioResponse convertirAResponse(Usuario usuario) {
 
         UsuarioResponse response = new UsuarioResponse();

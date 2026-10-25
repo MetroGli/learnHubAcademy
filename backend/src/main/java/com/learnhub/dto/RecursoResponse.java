@@ -1,33 +1,15 @@
 package com.learnhub.dto;
 
-/**
- * Response data for Recurso.
- */
 public class RecursoResponse {
 
-    /**
-     * Resource identifier.
-     */
     private Long id;
 
-    /**
-     * Resource name.
-     */
     private String nombre;
 
-    /**
-     * Resource type.
-     */
     private String tipo;
 
-    /**
-     * Resource URL.
-     */
     private String url;
 
-    /**
-     * Identifier of the lesson.
-     */
     private Long leccionId;
 
     public Long getId() {

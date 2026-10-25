@@ -3,26 +3,14 @@ package com.learnhub.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-/**
- * Request data for creating or updating a Respuesta.
- */
 public class RespuestaRequest {
 
-    /**
-     * Answer text.
-     */
-    @NotBlank(message = "The answer text is required")
+    @NotBlank(message = "El texto de la respuesta es obligatorio")
     private String texto;
 
-    /**
-     * Indicates whether the answer is correct.
-     */
     private boolean correcta;
 
-    /**
-     * Identifier of the question.
-     */
-    @NotNull(message = "The question is required")
+    @NotNull(message = "La pregunta es obligatoria")
     private Long preguntaId;
 
     public String getTexto() {

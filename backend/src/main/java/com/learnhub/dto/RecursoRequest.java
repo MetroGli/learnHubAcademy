@@ -3,33 +3,18 @@ package com.learnhub.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-/**
- * Request data for creating or updating a Recurso.
- */
 public class RecursoRequest {
 
-    /**
-     * Resource name.
-     */
-    @NotBlank(message = "The resource name is required")
+    @NotBlank(message = "El nombre del recurso es obligatorio")
     private String nombre;
 
-    /**
-     * Resource type.
-     */
-    @NotBlank(message = "The resource type is required")
+    @NotBlank(message = "El tipo de recurso es obligatorio")
     private String tipo;
 
-    /**
-     * Resource URL.
-     */
-    @NotBlank(message = "The resource URL is required")
+    @NotBlank(message = "La URL del recurso es obligatoria")
     private String url;
 
-    /**
-     * Identifier of the lesson.
-     */
-    @NotNull(message = "The lesson is required")
+    @NotNull(message = "La lección es obligatoria")
     private Long leccionId;
 
     public String getNombre() {

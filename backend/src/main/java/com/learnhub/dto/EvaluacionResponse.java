@@ -1,33 +1,15 @@
 package com.learnhub.dto;
 
-/**
- * Response data for Evaluacion.
- */
 public class EvaluacionResponse {
 
-    /**
-     * Evaluation identifier.
-     */
     private Long id;
 
-    /**
-     * Evaluation title.
-     */
     private String titulo;
 
-    /**
-     * Evaluation description.
-     */
     private String descripcion;
 
-    /**
-     * Percentage assigned to the evaluation.
-     */
     private Double porcentaje;
 
-    /**
-     * Identifier of the course.
-     */
     private Long cursoId;
 
     public Long getId() {

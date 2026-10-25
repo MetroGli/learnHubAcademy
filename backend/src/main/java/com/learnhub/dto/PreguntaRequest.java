@@ -3,27 +3,15 @@ package com.learnhub.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-/**
- * Request data for creating or updating a Pregunta.
- */
 public class PreguntaRequest {
 
-    /**
-     * Question statement.
-     */
-    @NotBlank(message = "The question statement is required")
+    @NotBlank(message = "El enunciado de la pregunta es obligatorio")
     private String enunciado;
 
-    /**
-     * Question type.
-     */
-    @NotBlank(message = "The question type is required")
+    @NotBlank(message = "El tipo de pregunta es obligatorio")
     private String tipo;
 
-    /**
-     * Identifier of the evaluation.
-     */
-    @NotNull(message = "The evaluation is required")
+    @NotNull(message = "La evaluación es obligatoria")
     private Long evaluacionId;
 
     public String getEnunciado() {

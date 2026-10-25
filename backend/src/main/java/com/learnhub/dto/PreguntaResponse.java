@@ -1,28 +1,13 @@
 package com.learnhub.dto;
 
-/**
- * Response data for Pregunta.
- */
 public class PreguntaResponse {
 
-    /**
-     * Question identifier.
-     */
     private Long id;
 
-    /**
-     * Question statement.
-     */
     private String enunciado;
 
-    /**
-     * Question type.
-     */
     private String tipo;
 
-    /**
-     * Identifier of the evaluation.
-     */
     private Long evaluacionId;
 
     public Long getId() {

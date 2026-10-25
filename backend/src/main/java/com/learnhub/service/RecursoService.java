@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- * Provides business logic for Recurso management.
- */
 @Service
 public class RecursoService {
 
@@ -29,7 +26,7 @@ public class RecursoService {
     public RecursoResponse crearRecurso(RecursoRequest request) {
         Leccion leccion = leccionRepository.findById(request.getLeccionId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Lesson not found with id: " + request.getLeccionId()));
+                        "No se encontró la lección con id: " + request.getLeccionId()));
 
         Recurso recurso = new Recurso();
         recurso.setNombre(request.getNombre());
@@ -50,7 +47,7 @@ public class RecursoService {
     public RecursoResponse buscarRecursoPorId(Long id) {
         Recurso recurso = recursoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Resource not found with id: " + id));
+                        "No se encontró el recurso con id: " + id));
 
         return convertirAResponse(recurso);
     }
@@ -61,11 +58,11 @@ public class RecursoService {
 
         Recurso recurso = recursoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Resource not found with id: " + id));
+                        "No se encontró el recurso con id: " + id));
 
         Leccion leccion = leccionRepository.findById(request.getLeccionId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Lesson not found with id: " + request.getLeccionId()));
+                        "No se encontró la lección con id: " + request.getLeccionId()));
 
         recurso.setNombre(request.getNombre());
         recurso.setTipo(request.getTipo());
@@ -78,7 +75,7 @@ public class RecursoService {
     public void eliminarRecurso(Long id) {
         if (!recursoRepository.existsById(id)) {
             throw new IllegalArgumentException(
-                    "Resource not found with id: " + id);
+                    "No se encontró el recurso con id: " + id);
         }
 
         recursoRepository.deleteById(id);

@@ -5,46 +5,34 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-/**
- * Filters incoming requests and authenticates users using JWT tokens.
- */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final String PREFIJO_BEARER = "Bearer ";
+
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
+    private final TokenCookie tokenCookie;
 
-    /**
-     * Creates the JWT authentication filter.
-     *
-     * @param jwtService service used to validate JWT tokens
-     * @param userDetailsService service used to load users
-     */
     public JwtAuthenticationFilter(
             JwtService jwtService,
-            CustomUserDetailsService userDetailsService) {
+            CustomUserDetailsService userDetailsService,
+            TokenCookie tokenCookie) {
 
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.tokenCookie = tokenCookie;
     }
 
-    /**
-     * Processes an incoming HTTP request and authenticates the user
-     * when a valid JWT is provided.
-     *
-     * @param request HTTP request
-     * @param response HTTP response
-     * @param filterChain security filter chain
-     * @throws ServletException if the request cannot be processed
-     * @throws IOException if an input or output error occurs
-     */
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -52,53 +40,62 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authorizationHeader =
-                request.getHeader("Authorization");
+        Optional<String> token = obtenerToken(request);
 
-        if (authorizationHeader == null
-                || !authorizationHeader.startsWith("Bearer ")) {
-
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        String token = authorizationHeader.substring(7);
-
-        String username;
-
-        try {
-            username = jwtService.extractUsername(token);
-        } catch (Exception exception) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        if (username != null
-                && SecurityContextHolder.getContext()
-                .getAuthentication() == null) {
-
-            UserDetails userDetails =
-                    userDetailsService.loadUserByUsername(username);
-
-            if (jwtService.isTokenValid(token, userDetails)) {
-
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
-
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request)
-                );
-
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
-            }
+        if (token.isPresent()
+                && SecurityContextHolder.getContext().getAuthentication() == null) {
+            autenticar(token.get(), request);
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * La app web usa la cookie. El encabezado Authorization se mantiene
+     * para probar la API con curl o Postman.
+     */
+    private Optional<String> obtenerToken(HttpServletRequest request) {
+        Optional<String> desdeCookie = tokenCookie.leer(request);
+
+        if (desdeCookie.isPresent()) {
+            return desdeCookie;
+        }
+
+        String encabezado = request.getHeader("Authorization");
+
+        if (encabezado != null && encabezado.startsWith(PREFIJO_BEARER)) {
+            return Optional.of(encabezado.substring(PREFIJO_BEARER.length()));
+        }
+
+        return Optional.empty();
+    }
+
+    private void autenticar(String token, HttpServletRequest request) {
+        try {
+            String username = jwtService.extractUsername(token);
+            UserDetails userDetails =
+                    userDetailsService.loadUserByUsername(username);
+
+            if (!userDetails.isEnabled()
+                    || !jwtService.isTokenValid(token, userDetails)) {
+                return;
+            }
+
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities());
+
+            authentication.setDetails(
+                    new WebAuthenticationDetailsSource().buildDetails(request));
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        } catch (UsernameNotFoundException | io.jsonwebtoken.JwtException
+                 | IllegalArgumentException e) {
+            // Token inválido, vencido o de un usuario eliminado:
+            // la petición sigue sin autenticar y Spring responde 401/403.
+        }
     }
 }

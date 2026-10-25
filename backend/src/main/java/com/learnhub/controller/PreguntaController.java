@@ -16,30 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Provides REST endpoints for question management.
- */
 @RestController
 @RequestMapping("/api/preguntas")
 public class PreguntaController {
 
     private final PreguntaService preguntaService;
 
-    /**
-     * Creates the question controller.
-     *
-     * @param preguntaService question service
-     */
     public PreguntaController(PreguntaService preguntaService) {
         this.preguntaService = preguntaService;
     }
 
-    /**
-     * Creates a question.
-     *
-     * @param request question data
-     * @return created question
-     */
     @PostMapping
     public ResponseEntity<PreguntaResponse> crear(
             @Valid @RequestBody PreguntaRequest request) {
@@ -49,22 +35,11 @@ public class PreguntaController {
                 .body(preguntaService.crearPregunta(request));
     }
 
-    /**
-     * Lists questions.
-     *
-     * @return list of questions
-     */
     @GetMapping
     public ResponseEntity<List<PreguntaResponse>> listar() {
         return ResponseEntity.ok(preguntaService.listarPreguntas());
     }
 
-    /**
-     * Gets a question by identifier.
-     *
-     * @param id question identifier
-     * @return question
-     */
     @GetMapping("/{id}")
     public ResponseEntity<PreguntaResponse> buscar(
             @PathVariable Long id) {
@@ -73,13 +48,6 @@ public class PreguntaController {
                 preguntaService.buscarPreguntaPorId(id));
     }
 
-    /**
-     * Updates a question.
-     *
-     * @param id question identifier
-     * @param request updated question data
-     * @return updated question
-     */
     @PutMapping("/{id}")
     public ResponseEntity<PreguntaResponse> actualizar(
             @PathVariable Long id,
@@ -89,12 +57,6 @@ public class PreguntaController {
                 preguntaService.actualizarPregunta(id, request));
     }
 
-    /**
-     * Deletes a question.
-     *
-     * @param id question identifier
-     * @return empty response
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
 

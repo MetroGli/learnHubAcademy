@@ -4,32 +4,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-/**
- * Request data for creating or updating a Curso.
- */
 public class CursoRequest {
 
-    /**
-     * Course name.
-     */
-    @NotBlank(message = "The course name is required")
-    @Size(max = 255, message = "The course name cannot exceed 255 characters")
+    @NotBlank(message = "El nombre del curso es obligatorio")
+    @Size(max = 255, message = "El nombre del curso no puede superar los 255 caracteres")
     private String nombre;
 
-    /**
-     * Course description.
-     */
     private String descripcion;
 
-    /**
-     * Indicates whether the course is active.
-     */
     private boolean activo = true;
 
-    /**
-     * Identifier of the professor responsible for the course.
-     */
-    @NotNull(message = "The professor is required")
+    @NotNull(message = "El profesor es obligatorio")
     private Long profesorId;
 
     public String getNombre() {

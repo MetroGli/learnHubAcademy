@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- * Provides business logic for Calificacion management.
- */
 @Service
 public class CalificacionService {
 
@@ -37,13 +34,13 @@ public class CalificacionService {
         Usuario usuario = usuarioRepository.findById(
                         request.getUsuarioId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "User not found with id: "
+                        "No se encontró el usuario con id: "
                                 + request.getUsuarioId()));
 
         Evaluacion evaluacion = evaluacionRepository.findById(
                         request.getEvaluacionId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Evaluation not found with id: "
+                        "No se encontró la evaluación con id: "
                                 + request.getEvaluacionId()));
 
         Calificacion calificacion = new Calificacion();
@@ -65,7 +62,7 @@ public class CalificacionService {
     public CalificacionResponse buscarCalificacionPorId(Long id) {
         Calificacion calificacion = calificacionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Grade not found with id: " + id));
+                        "No se encontró la calificación con id: " + id));
 
         return convertirAResponse(calificacion);
     }
@@ -76,18 +73,18 @@ public class CalificacionService {
 
         Calificacion calificacion = calificacionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Grade not found with id: " + id));
+                        "No se encontró la calificación con id: " + id));
 
         Usuario usuario = usuarioRepository.findById(
                         request.getUsuarioId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "User not found with id: "
+                        "No se encontró el usuario con id: "
                                 + request.getUsuarioId()));
 
         Evaluacion evaluacion = evaluacionRepository.findById(
                         request.getEvaluacionId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Evaluation not found with id: "
+                        "No se encontró la evaluación con id: "
                                 + request.getEvaluacionId()));
 
         calificacion.setUsuario(usuario);
@@ -101,7 +98,7 @@ public class CalificacionService {
     public void eliminarCalificacion(Long id) {
         if (!calificacionRepository.existsById(id)) {
             throw new IllegalArgumentException(
-                    "Grade not found with id: " + id);
+                    "No se encontró la calificación con id: " + id);
         }
 
         calificacionRepository.deleteById(id);

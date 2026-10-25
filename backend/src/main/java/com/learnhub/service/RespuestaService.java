@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- * Provides business logic for Respuesta management.
- */
 @Service
 public class RespuestaService {
 
@@ -30,7 +27,7 @@ public class RespuestaService {
         Pregunta pregunta = preguntaRepository.findById(
                         request.getPreguntaId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Question not found with id: "
+                        "No se encontró la pregunta con id: "
                                 + request.getPreguntaId()));
 
         Respuesta respuesta = new Respuesta();
@@ -51,7 +48,7 @@ public class RespuestaService {
     public RespuestaResponse buscarRespuestaPorId(Long id) {
         Respuesta respuesta = respuestaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Answer not found with id: " + id));
+                        "No se encontró la respuesta con id: " + id));
 
         return convertirAResponse(respuesta);
     }
@@ -62,12 +59,12 @@ public class RespuestaService {
 
         Respuesta respuesta = respuestaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Answer not found with id: " + id));
+                        "No se encontró la respuesta con id: " + id));
 
         Pregunta pregunta = preguntaRepository.findById(
                         request.getPreguntaId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Question not found with id: "
+                        "No se encontró la pregunta con id: "
                                 + request.getPreguntaId()));
 
         respuesta.setTexto(request.getTexto());
@@ -80,7 +77,7 @@ public class RespuestaService {
     public void eliminarRespuesta(Long id) {
         if (!respuestaRepository.existsById(id)) {
             throw new IllegalArgumentException(
-                    "Answer not found with id: " + id);
+                    "No se encontró la respuesta con id: " + id);
         }
 
         respuestaRepository.deleteById(id);

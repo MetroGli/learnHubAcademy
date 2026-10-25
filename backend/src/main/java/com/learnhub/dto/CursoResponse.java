@@ -1,33 +1,15 @@
 package com.learnhub.dto;
 
-/**
- * Response data for Curso.
- */
 public class CursoResponse {
 
-    /**
-     * Course identifier.
-     */
     private Long id;
 
-    /**
-     * Course name.
-     */
     private String nombre;
 
-    /**
-     * Course description.
-     */
     private String descripcion;
 
-    /**
-     * Indicates whether the course is active.
-     */
     private boolean activo;
 
-    /**
-     * Identifier of the professor responsible for the course.
-     */
     private Long profesorId;
 
     public Long getId() {

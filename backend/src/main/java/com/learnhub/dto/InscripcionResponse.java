@@ -2,34 +2,16 @@ package com.learnhub.dto;
 
 import java.time.LocalDate;
 
-/**
- * Response data for Inscripcion.
- */
 public class InscripcionResponse {
 
-    /**
-     * Enrollment identifier.
-     */
     private Long id;
 
-    /**
-     * Identifier of the user.
-     */
     private Long usuarioId;
 
-    /**
-     * Identifier of the course.
-     */
     private Long cursoId;
 
-    /**
-     * Enrollment date.
-     */
     private LocalDate fechaInscripcion;
 
-    /**
-     * Indicates whether the enrollment is active.
-     */
     private boolean activa;
 
     public Long getId() {

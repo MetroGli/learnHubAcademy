@@ -4,33 +4,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
-/**
- * Request data for creating or updating a Leccion.
- */
 public class LeccionRequest {
 
-    /**
-     * Lesson title.
-     */
-    @NotBlank(message = "The lesson title is required")
+    @NotBlank(message = "El título de la lección es obligatorio")
     private String titulo;
 
-    /**
-     * Lesson content.
-     */
     private String contenido;
 
-    /**
-     * Lesson order inside the module.
-     */
-    @NotNull(message = "The lesson order is required")
-    @PositiveOrZero(message = "The lesson order cannot be negative")
+    @NotNull(message = "El orden de la lección es obligatorio")
+    @PositiveOrZero(message = "El orden de la lección no puede ser negativo")
     private Integer orden;
 
-    /**
-     * Identifier of the module.
-     */
-    @NotNull(message = "The module is required")
+    @NotNull(message = "El módulo es obligatorio")
     private Long moduloId;
 
     public String getTitulo() {

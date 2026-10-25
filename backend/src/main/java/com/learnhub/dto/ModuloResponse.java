@@ -1,33 +1,15 @@
 package com.learnhub.dto;
 
-/**
- * Response data for Modulo.
- */
 public class ModuloResponse {
 
-    /**
-     * Module identifier.
-     */
     private Long id;
 
-    /**
-     * Module name.
-     */
     private String nombre;
 
-    /**
-     * Module description.
-     */
     private String descripcion;
 
-    /**
-     * Module order.
-     */
     private Integer orden;
 
-    /**
-     * Identifier of the course.
-     */
     private Long cursoId;
 
     public Long getId() {

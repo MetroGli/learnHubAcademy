@@ -13,9 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- * Provides business logic for Inscripcion management.
- */
 @Service
 public class InscripcionService {
 
@@ -38,13 +35,13 @@ public class InscripcionService {
         Usuario usuario = usuarioRepository.findById(
                         request.getUsuarioId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "User not found with id: "
+                        "No se encontró el usuario con id: "
                                 + request.getUsuarioId()));
 
         Curso curso = cursoRepository.findById(
                         request.getCursoId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Course not found with id: "
+                        "No se encontró el curso con id: "
                                 + request.getCursoId()));
 
         Inscripcion inscripcion = new Inscripcion();
@@ -67,7 +64,7 @@ public class InscripcionService {
     public InscripcionResponse buscarInscripcionPorId(Long id) {
         Inscripcion inscripcion = inscripcionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Enrollment not found with id: " + id));
+                        "No se encontró la inscripción con id: " + id));
 
         return convertirAResponse(inscripcion);
     }
@@ -78,18 +75,18 @@ public class InscripcionService {
 
         Inscripcion inscripcion = inscripcionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Enrollment not found with id: " + id));
+                        "No se encontró la inscripción con id: " + id));
 
         Usuario usuario = usuarioRepository.findById(
                         request.getUsuarioId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "User not found with id: "
+                        "No se encontró el usuario con id: "
                                 + request.getUsuarioId()));
 
         Curso curso = cursoRepository.findById(
                         request.getCursoId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Course not found with id: "
+                        "No se encontró el curso con id: "
                                 + request.getCursoId()));
 
         inscripcion.setUsuario(usuario);
@@ -103,7 +100,7 @@ public class InscripcionService {
     public void eliminarInscripcion(Long id) {
         if (!inscripcionRepository.existsById(id)) {
             throw new IllegalArgumentException(
-                    "Enrollment not found with id: " + id);
+                    "No se encontró la inscripción con id: " + id);
         }
 
         inscripcionRepository.deleteById(id);

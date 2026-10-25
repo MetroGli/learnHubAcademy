@@ -9,20 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-/**
-
-* Provides centralized exception handling for the REST API.
-  */
   @RestControllerAdvice
   public class GlobalExceptionHandler {
 
-  /**
-
-  * Handles IllegalArgumentException exceptions.
-  *
-  * @param exception exception thrown by the application
-  * @return HTTP 404 response with error information
-    */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(
     IllegalArgumentException exception) {

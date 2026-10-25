@@ -16,30 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Provides REST endpoints for progress management.
- */
 @RestController
 @RequestMapping("/api/progresos")
 public class ProgresoController {
 
     private final ProgresoService progresoService;
 
-    /**
-     * Creates the progress controller.
-     *
-     * @param progresoService progress service
-     */
     public ProgresoController(ProgresoService progresoService) {
         this.progresoService = progresoService;
     }
 
-    /**
-     * Creates progress.
-     *
-     * @param request progress data
-     * @return created progress
-     */
     @PostMapping
     public ResponseEntity<ProgresoResponse> crear(
             @Valid @RequestBody ProgresoRequest request) {
@@ -49,22 +35,11 @@ public class ProgresoController {
                 .body(progresoService.crearProgreso(request));
     }
 
-    /**
-     * Lists progress records.
-     *
-     * @return list of progress records
-     */
     @GetMapping
     public ResponseEntity<List<ProgresoResponse>> listar() {
         return ResponseEntity.ok(progresoService.listarProgresos());
     }
 
-    /**
-     * Gets progress by identifier.
-     *
-     * @param id progress identifier
-     * @return progress
-     */
     @GetMapping("/{id}")
     public ResponseEntity<ProgresoResponse> buscar(
             @PathVariable Long id) {
@@ -73,13 +48,6 @@ public class ProgresoController {
                 progresoService.buscarProgresoPorId(id));
     }
 
-    /**
-     * Updates progress.
-     *
-     * @param id progress identifier
-     * @param request updated progress data
-     * @return updated progress
-     */
     @PutMapping("/{id}")
     public ResponseEntity<ProgresoResponse> actualizar(
             @PathVariable Long id,
@@ -89,12 +57,6 @@ public class ProgresoController {
                 progresoService.actualizarProgreso(id, request));
     }
 
-    /**
-     * Deletes progress.
-     *
-     * @param id progress identifier
-     * @return empty response
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
 

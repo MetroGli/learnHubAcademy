@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- * Provides business logic for Leccion management.
- */
 @Service
 public class LeccionService {
 
@@ -29,7 +26,7 @@ public class LeccionService {
     public LeccionResponse crearLeccion(LeccionRequest request) {
         Modulo modulo = moduloRepository.findById(request.getModuloId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Module not found with id: " + request.getModuloId()));
+                        "No se encontró el módulo con id: " + request.getModuloId()));
 
         Leccion leccion = new Leccion();
         leccion.setTitulo(request.getTitulo());
@@ -50,7 +47,7 @@ public class LeccionService {
     public LeccionResponse buscarLeccionPorId(Long id) {
         Leccion leccion = leccionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Lesson not found with id: " + id));
+                        "No se encontró la lección con id: " + id));
 
         return convertirAResponse(leccion);
     }
@@ -58,11 +55,11 @@ public class LeccionService {
     public LeccionResponse actualizarLeccion(Long id, LeccionRequest request) {
         Leccion leccion = leccionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Lesson not found with id: " + id));
+                        "No se encontró la lección con id: " + id));
 
         Modulo modulo = moduloRepository.findById(request.getModuloId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Module not found with id: " + request.getModuloId()));
+                        "No se encontró el módulo con id: " + request.getModuloId()));
 
         leccion.setTitulo(request.getTitulo());
         leccion.setContenido(request.getContenido());
@@ -75,7 +72,7 @@ public class LeccionService {
     public void eliminarLeccion(Long id) {
         if (!leccionRepository.existsById(id)) {
             throw new IllegalArgumentException(
-                    "Lesson not found with id: " + id);
+                    "No se encontró la lección con id: " + id);
         }
 
         leccionRepository.deleteById(id);

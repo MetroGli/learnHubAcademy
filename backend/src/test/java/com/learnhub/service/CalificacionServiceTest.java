@@ -45,7 +45,7 @@ class CalificacionServiceTest {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(evaluacionRepository.findById(2L)).thenReturn(Optional.empty());
         IllegalArgumentException e=assertThrows(IllegalArgumentException.class,()->calificacionService.crearCalificacion(request));
-        assertEquals("Evaluation not found with id: 2",e.getMessage());
+        assertEquals("No se encontró la evaluación con id: 2",e.getMessage());
     }
     @Test void shouldListCalificacionesIncludingNullAssociations() {
         Calificacion c=new Calificacion(); c.setNota(3.0);
@@ -64,7 +64,7 @@ class CalificacionServiceTest {
     @Test void shouldThrowWhenCalificacionDoesNotExist() {
         when(calificacionRepository.findById(99L)).thenReturn(Optional.empty());
         IllegalArgumentException e=assertThrows(IllegalArgumentException.class,()->calificacionService.buscarCalificacionPorId(99L));
-        assertEquals("Grade not found with id: 99",e.getMessage());
+        assertEquals("No se encontró la calificación con id: 99",e.getMessage());
     }
     @Test void shouldUpdateCalificacion() {
         Calificacion c=new Calificacion(); c.setNota(2.0); CalificacionRequest request=request(1L,2L,4.0);
@@ -76,7 +76,7 @@ class CalificacionServiceTest {
         when(calificacionRepository.existsById(7L)).thenReturn(true); calificacionService.eliminarCalificacion(7L); verify(calificacionRepository).deleteById(7L);
     }
     @Test void shouldThrowWhenDeletingMissingCalificacion() {
-        when(calificacionRepository.existsById(7L)).thenReturn(false); IllegalArgumentException e=assertThrows(IllegalArgumentException.class,()->calificacionService.eliminarCalificacion(7L)); assertEquals("Grade not found with id: 7",e.getMessage());
+        when(calificacionRepository.existsById(7L)).thenReturn(false); IllegalArgumentException e=assertThrows(IllegalArgumentException.class,()->calificacionService.eliminarCalificacion(7L)); assertEquals("No se encontró la calificación con id: 7",e.getMessage());
     }
     private CalificacionRequest request(Long u,Long ev,Double n){CalificacionRequest r=new CalificacionRequest();r.setUsuarioId(u);r.setEvaluacionId(ev);r.setNota(n);return r;}
 }

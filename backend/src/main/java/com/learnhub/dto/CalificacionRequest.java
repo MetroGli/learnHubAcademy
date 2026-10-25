@@ -3,28 +3,16 @@ package com.learnhub.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
-/**
- * Request data for creating or updating a Calificacion.
- */
 public class CalificacionRequest {
 
-    /**
-     * Identifier of the user receiving the grade.
-     */
-    @NotNull(message = "The user is required")
+    @NotNull(message = "El usuario es obligatorio")
     private Long usuarioId;
 
-    /**
-     * Identifier of the evaluation being graded.
-     */
-    @NotNull(message = "The evaluation is required")
+    @NotNull(message = "La evaluación es obligatoria")
     private Long evaluacionId;
 
-    /**
-     * Grade obtained by the user.
-     */
-    @NotNull(message = "The grade is required")
-    @PositiveOrZero(message = "The grade cannot be negative")
+    @NotNull(message = "La nota es obligatoria")
+    @PositiveOrZero(message = "La nota no puede ser negativa")
     private Double nota;
 
     public Long getUsuarioId() {

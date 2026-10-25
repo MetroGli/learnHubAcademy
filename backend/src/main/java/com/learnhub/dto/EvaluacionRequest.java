@@ -4,33 +4,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
-/**
- * Request data for creating or updating an Evaluacion.
- */
 public class EvaluacionRequest {
 
-    /**
-     * Evaluation title.
-     */
-    @NotBlank(message = "The evaluation title is required")
+    @NotBlank(message = "El título de la evaluación es obligatorio")
     private String titulo;
 
-    /**
-     * Evaluation description.
-     */
     private String descripcion;
 
-    /**
-     * Percentage assigned to the evaluation.
-     */
-    @NotNull(message = "The percentage is required")
-    @PositiveOrZero(message = "The percentage cannot be negative")
+    @NotNull(message = "El porcentaje es obligatorio")
+    @PositiveOrZero(message = "El porcentaje no puede ser negativo")
     private Double porcentaje;
 
-    /**
-     * Identifier of the course.
-     */
-    @NotNull(message = "The course is required")
+    @NotNull(message = "El curso es obligatorio")
     private Long cursoId;
 
     public String getTitulo() {

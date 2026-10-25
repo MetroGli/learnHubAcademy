@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- * Provides business logic for Evaluacion management.
- */
 @Service
 public class EvaluacionService {
 
@@ -29,7 +26,7 @@ public class EvaluacionService {
     public EvaluacionResponse crearEvaluacion(EvaluacionRequest request) {
         Curso curso = cursoRepository.findById(request.getCursoId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Course not found with id: " + request.getCursoId()));
+                        "No se encontró el curso con id: " + request.getCursoId()));
 
         Evaluacion evaluacion = new Evaluacion();
         evaluacion.setTitulo(request.getTitulo());
@@ -50,7 +47,7 @@ public class EvaluacionService {
     public EvaluacionResponse buscarEvaluacionPorId(Long id) {
         Evaluacion evaluacion = evaluacionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Evaluation not found with id: " + id));
+                        "No se encontró la evaluación con id: " + id));
 
         return convertirAResponse(evaluacion);
     }
@@ -61,11 +58,11 @@ public class EvaluacionService {
 
         Evaluacion evaluacion = evaluacionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Evaluation not found with id: " + id));
+                        "No se encontró la evaluación con id: " + id));
 
         Curso curso = cursoRepository.findById(request.getCursoId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Course not found with id: " + request.getCursoId()));
+                        "No se encontró el curso con id: " + request.getCursoId()));
 
         evaluacion.setTitulo(request.getTitulo());
         evaluacion.setDescripcion(request.getDescripcion());
@@ -78,7 +75,7 @@ public class EvaluacionService {
     public void eliminarEvaluacion(Long id) {
         if (!evaluacionRepository.existsById(id)) {
             throw new IllegalArgumentException(
-                    "Evaluation not found with id: " + id);
+                    "No se encontró la evaluación con id: " + id);
         }
 
         evaluacionRepository.deleteById(id);

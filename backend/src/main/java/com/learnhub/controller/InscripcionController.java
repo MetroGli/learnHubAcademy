@@ -16,31 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Provides REST endpoints for enrollment management.
- */
 @RestController
 @RequestMapping("/api/inscripciones")
 public class InscripcionController {
 
     private final InscripcionService inscripcionService;
 
-    /**
-     * Creates the enrollment controller with its required service.
-     *
-     * @param inscripcionService service used to manage enrollments
-     */
     public InscripcionController(
             InscripcionService inscripcionService) {
         this.inscripcionService = inscripcionService;
     }
 
-    /**
-     * Creates a new enrollment.
-     *
-     * @param request enrollment creation data
-     * @return created enrollment
-     */
     @PostMapping
     public ResponseEntity<InscripcionResponse> crearInscripcion(
             @Valid @RequestBody InscripcionRequest request) {
@@ -53,11 +39,6 @@ public class InscripcionController {
                 .body(response);
     }
 
-    /**
-     * Retrieves all enrollments.
-     *
-     * @return list of enrollments
-     */
     @GetMapping
     public ResponseEntity<List<InscripcionResponse>> listarInscripciones() {
 
@@ -65,12 +46,6 @@ public class InscripcionController {
                 inscripcionService.listarInscripciones());
     }
 
-    /**
-     * Retrieves an enrollment by its identifier.
-     *
-     * @param id enrollment identifier
-     * @return enrollment data
-     */
     @GetMapping("/{id}")
     public ResponseEntity<InscripcionResponse> buscarInscripcionPorId(
             @PathVariable Long id) {
@@ -79,13 +54,6 @@ public class InscripcionController {
                 inscripcionService.buscarInscripcionPorId(id));
     }
 
-    /**
-     * Updates an existing enrollment.
-     *
-     * @param id enrollment identifier
-     * @param request updated enrollment data
-     * @return updated enrollment
-     */
     @PutMapping("/{id}")
     public ResponseEntity<InscripcionResponse> actualizarInscripcion(
             @PathVariable Long id,
@@ -95,12 +63,6 @@ public class InscripcionController {
                 inscripcionService.actualizarInscripcion(id, request));
     }
 
-    /**
-     * Deletes an enrollment.
-     *
-     * @param id enrollment identifier
-     * @return empty response
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarInscripcion(
             @PathVariable Long id) {

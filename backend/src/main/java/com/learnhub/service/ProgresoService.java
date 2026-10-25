@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- * Provides business logic for Progreso management.
- */
 @Service
 public class ProgresoService {
 
@@ -35,13 +32,13 @@ public class ProgresoService {
         Usuario usuario = usuarioRepository.findById(
                         request.getUsuarioId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "User not found with id: "
+                        "No se encontró el usuario con id: "
                                 + request.getUsuarioId()));
 
         Curso curso = cursoRepository.findById(
                         request.getCursoId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Course not found with id: "
+                        "No se encontró el curso con id: "
                                 + request.getCursoId()));
 
         Progreso progreso = new Progreso();
@@ -63,7 +60,7 @@ public class ProgresoService {
     public ProgresoResponse buscarProgresoPorId(Long id) {
         Progreso progreso = progresoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Progress not found with id: " + id));
+                        "No se encontró el progreso con id: " + id));
 
         return convertirAResponse(progreso);
     }
@@ -74,18 +71,18 @@ public class ProgresoService {
 
         Progreso progreso = progresoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Progress not found with id: " + id));
+                        "No se encontró el progreso con id: " + id));
 
         Usuario usuario = usuarioRepository.findById(
                         request.getUsuarioId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "User not found with id: "
+                        "No se encontró el usuario con id: "
                                 + request.getUsuarioId()));
 
         Curso curso = cursoRepository.findById(
                         request.getCursoId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Course not found with id: "
+                        "No se encontró el curso con id: "
                                 + request.getCursoId()));
 
         progreso.setUsuario(usuario);
@@ -99,7 +96,7 @@ public class ProgresoService {
     public void eliminarProgreso(Long id) {
         if (!progresoRepository.existsById(id)) {
             throw new IllegalArgumentException(
-                    "Progress not found with id: " + id);
+                    "No se encontró el progreso con id: " + id);
         }
 
         progresoRepository.deleteById(id);

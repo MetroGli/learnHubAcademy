@@ -16,30 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Provides REST endpoints for resource management.
- */
 @RestController
 @RequestMapping("/api/recursos")
 public class RecursoController {
 
     private final RecursoService recursoService;
 
-    /**
-     * Creates the resource controller.
-     *
-     * @param recursoService resource service
-     */
     public RecursoController(RecursoService recursoService) {
         this.recursoService = recursoService;
     }
 
-    /**
-     * Creates a resource.
-     *
-     * @param request resource data
-     * @return created resource
-     */
     @PostMapping
     public ResponseEntity<RecursoResponse> crear(
             @Valid @RequestBody RecursoRequest request) {
@@ -49,22 +35,11 @@ public class RecursoController {
                 .body(recursoService.crearRecurso(request));
     }
 
-    /**
-     * Lists resources.
-     *
-     * @return list of resources
-     */
     @GetMapping
     public ResponseEntity<List<RecursoResponse>> listar() {
         return ResponseEntity.ok(recursoService.listarRecursos());
     }
 
-    /**
-     * Gets a resource by identifier.
-     *
-     * @param id resource identifier
-     * @return resource
-     */
     @GetMapping("/{id}")
     public ResponseEntity<RecursoResponse> buscar(
             @PathVariable Long id) {
@@ -73,13 +48,6 @@ public class RecursoController {
                 recursoService.buscarRecursoPorId(id));
     }
 
-    /**
-     * Updates a resource.
-     *
-     * @param id resource identifier
-     * @param request updated resource data
-     * @return updated resource
-     */
     @PutMapping("/{id}")
     public ResponseEntity<RecursoResponse> actualizar(
             @PathVariable Long id,
@@ -89,12 +57,6 @@ public class RecursoController {
                 recursoService.actualizarRecurso(id, request));
     }
 
-    /**
-     * Deletes a resource.
-     *
-     * @param id resource identifier
-     * @return empty response
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
 

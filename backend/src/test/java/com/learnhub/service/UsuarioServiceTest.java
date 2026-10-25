@@ -23,9 +23,6 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Tests the business logic for user management.
- */
 @ExtendWith(MockitoExtension.class)
 class UsuarioServiceTest {
 
@@ -38,20 +35,12 @@ class UsuarioServiceTest {
     @InjectMocks
     private UsuarioService usuarioService;
 
-    /**
-     * Stubs the password encoder to act as a passthrough so tests
-     * that don't care about hashing don't have to configure it,
-     * and existing assertions on plain-text passwords still pass.
-     */
     @BeforeEach
     void setUp() {
         lenient().when(passwordEncoder.encode(anyString()))
                 .thenAnswer(invocation -> invocation.getArgument(0));
     }
 
-    /**
-     * Tests that a user can be created successfully.
-     */
     @Test
     void shouldCreateUser() {
         Usuario usuario = crearUsuario();
@@ -64,9 +53,6 @@ class UsuarioServiceTest {
         verify(usuarioRepository).save(usuario);
     }
 
-    /**
-     * Tests that all users can be retrieved.
-     */
     @Test
     void shouldListUsers() {
         Usuario usuario = crearUsuario();
@@ -80,9 +66,6 @@ class UsuarioServiceTest {
         verify(usuarioRepository).findAll();
     }
 
-    /**
-     * Tests that a user can be found by its identifier.
-     */
     @Test
     void shouldFindUserById() {
         Usuario usuario = crearUsuario();
@@ -100,9 +83,6 @@ class UsuarioServiceTest {
         verify(usuarioRepository).findById(1L);
     }
 
-    /**
-     * Tests that an empty optional is returned when a user does not exist.
-     */
     @Test
     void shouldReturnEmptyWhenUserDoesNotExist() {
         when(usuarioRepository.findById(999L))
@@ -114,9 +94,6 @@ class UsuarioServiceTest {
         verify(usuarioRepository).findById(999L);
     }
 
-    /**
-     * Tests that an existing user can be updated.
-     */
     @Test
     void shouldUpdateUser() {
         Usuario usuarioExistente = crearUsuario();
@@ -149,9 +126,6 @@ class UsuarioServiceTest {
         verify(usuarioRepository).save(usuarioExistente);
     }
 
-    /**
-     * Tests that updating a nonexistent user throws an exception.
-     */
     @Test
     void shouldThrowExceptionWhenUpdatingNonexistentUser() {
         when(usuarioRepository.findById(999L))
@@ -166,14 +140,11 @@ class UsuarioServiceTest {
         );
 
         assertEquals(
-                "User not found with id: 999",
+                "No se encontró el usuario con id: 999",
                 exception.getMessage()
         );
     }
 
-    /**
-     * Tests that an existing user can be deleted.
-     */
     @Test
     void shouldDeleteUser() {
         when(usuarioRepository.existsById(1L))
@@ -185,9 +156,6 @@ class UsuarioServiceTest {
         verify(usuarioRepository).deleteById(1L);
     }
 
-    /**
-     * Tests that deleting a nonexistent user throws an exception.
-     */
     @Test
     void shouldThrowExceptionWhenDeletingNonexistentUser() {
         when(usuarioRepository.existsById(999L))
@@ -199,16 +167,11 @@ class UsuarioServiceTest {
         );
 
         assertEquals(
-                "User not found with id: 999",
+                "No se encontró el usuario con id: 999",
                 exception.getMessage()
         );
     }
 
-    /**
-     * Creates a sample user for testing.
-     *
-     * @return a sample user
-     */
     private Usuario crearUsuario() {
         Usuario usuario = new Usuario();
         usuario.setNombre("Juan");

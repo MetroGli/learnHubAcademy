@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- * Provides business logic for Pregunta management.
- */
 @Service
 public class PreguntaService {
 
@@ -30,7 +27,7 @@ public class PreguntaService {
         Evaluacion evaluacion = evaluacionRepository.findById(
                         request.getEvaluacionId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Evaluation not found with id: "
+                        "No se encontró la evaluación con id: "
                                 + request.getEvaluacionId()));
 
         Pregunta pregunta = new Pregunta();
@@ -51,7 +48,7 @@ public class PreguntaService {
     public PreguntaResponse buscarPreguntaPorId(Long id) {
         Pregunta pregunta = preguntaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Question not found with id: " + id));
+                        "No se encontró la pregunta con id: " + id));
 
         return convertirAResponse(pregunta);
     }
@@ -62,12 +59,12 @@ public class PreguntaService {
 
         Pregunta pregunta = preguntaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Question not found with id: " + id));
+                        "No se encontró la pregunta con id: " + id));
 
         Evaluacion evaluacion = evaluacionRepository.findById(
                         request.getEvaluacionId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Evaluation not found with id: "
+                        "No se encontró la evaluación con id: "
                                 + request.getEvaluacionId()));
 
         pregunta.setEnunciado(request.getEnunciado());
@@ -80,7 +77,7 @@ public class PreguntaService {
     public void eliminarPregunta(Long id) {
         if (!preguntaRepository.existsById(id)) {
             throw new IllegalArgumentException(
-                    "Question not found with id: " + id);
+                    "No se encontró la pregunta con id: " + id);
         }
 
         preguntaRepository.deleteById(id);

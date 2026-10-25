@@ -4,33 +4,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
-/**
- * Request data for creating or updating a Modulo.
- */
 public class ModuloRequest {
 
-    /**
-     * Module name.
-     */
-    @NotBlank(message = "The module name is required")
+    @NotBlank(message = "El nombre del módulo es obligatorio")
     private String nombre;
 
-    /**
-     * Module description.
-     */
     private String descripcion;
 
-    /**
-     * Module order inside the course.
-     */
-    @NotNull(message = "The module order is required")
-    @PositiveOrZero(message = "The module order cannot be negative")
+    @NotNull(message = "El orden del módulo es obligatorio")
+    @PositiveOrZero(message = "El orden del módulo no puede ser negativo")
     private Integer orden;
 
-    /**
-     * Identifier of the course.
-     */
-    @NotNull(message = "The course is required")
+    @NotNull(message = "El curso es obligatorio")
     private Long cursoId;
 
     public String getNombre() {

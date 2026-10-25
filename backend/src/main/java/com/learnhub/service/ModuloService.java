@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-/**
- * Provides business logic for Modulo management.
- */
 @Service
 public class ModuloService {
 
@@ -26,16 +23,10 @@ public class ModuloService {
         this.cursoRepository = cursoRepository;
     }
 
-    /**
-     * Creates a new module.
-     *
-     * @param request module creation data
-     * @return created module
-     */
     public ModuloResponse crearModulo(ModuloRequest request) {
         Curso curso = cursoRepository.findById(request.getCursoId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Course not found with id: " + request.getCursoId()));
+                        "No se encontró el curso con id: " + request.getCursoId()));
 
         Modulo modulo = new Modulo();
         modulo.setNombre(request.getNombre());
@@ -56,7 +47,7 @@ public class ModuloService {
     public ModuloResponse buscarModuloPorId(Long id) {
         Modulo modulo = moduloRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Module not found with id: " + id));
+                        "No se encontró el módulo con id: " + id));
 
         return convertirAResponse(modulo);
     }
@@ -64,11 +55,11 @@ public class ModuloService {
     public ModuloResponse actualizarModulo(Long id, ModuloRequest request) {
         Modulo modulo = moduloRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Module not found with id: " + id));
+                        "No se encontró el módulo con id: " + id));
 
         Curso curso = cursoRepository.findById(request.getCursoId())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Course not found with id: " + request.getCursoId()));
+                        "No se encontró el curso con id: " + request.getCursoId()));
 
         modulo.setNombre(request.getNombre());
         modulo.setDescripcion(request.getDescripcion());
@@ -81,7 +72,7 @@ public class ModuloService {
     public void eliminarModulo(Long id) {
         if (!moduloRepository.existsById(id)) {
             throw new IllegalArgumentException(
-                    "Module not found with id: " + id);
+                    "No se encontró el módulo con id: " + id);
         }
 
         moduloRepository.deleteById(id);

@@ -1,33 +1,15 @@
 package com.learnhub.dto;
 
-/**
- * Response data for Leccion.
- */
 public class LeccionResponse {
 
-    /**
-     * Lesson identifier.
-     */
     private Long id;
 
-    /**
-     * Lesson title.
-     */
     private String titulo;
 
-    /**
-     * Lesson content.
-     */
     private String contenido;
 
-    /**
-     * Lesson order.
-     */
     private Integer orden;
 
-    /**
-     * Identifier of the module.
-     */
     private Long moduloId;
 
     public Long getId() {

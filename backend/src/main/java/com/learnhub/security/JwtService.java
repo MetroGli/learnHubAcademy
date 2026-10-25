@@ -12,9 +12,6 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.function.Function;
 
-/**
- * Provides operations for creating and validating JSON Web Tokens.
- */
 @Service
 public class JwtService {
 
@@ -24,12 +21,6 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long expiration;
 
-    /**
-     * Generates a JWT for the authenticated user.
-     *
-     * @param userDetails authenticated user information
-     * @return generated JWT
-     */
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
@@ -41,23 +32,10 @@ public class JwtService {
                 .compact();
     }
 
-    /**
-     * Extracts the username from a JWT.
-     *
-     * @param token JWT token
-     * @return username contained in the token
-     */
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    /**
-     * Validates a JWT against the supplied user details.
-     *
-     * @param token JWT token
-     * @param userDetails user information
-     * @return true when the token is valid
-     */
     public boolean isTokenValid(
             String token,
             UserDetails userDetails) {
@@ -68,14 +46,6 @@ public class JwtService {
                 && !isTokenExpired(token);
     }
 
-    /**
-     * Extracts a claim from a JWT.
-     *
-     * @param token JWT token
-     * @param claimsResolver function used to extract the claim
-     * @param <T> claim type
-     * @return extracted claim
-     */
     public <T> T extractClaim(
             String token,
             Function<Claims, T> claimsResolver) {
@@ -85,32 +55,14 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    /**
-     * Checks whether a JWT has expired.
-     *
-     * @param token JWT token
-     * @return true when the token is expired
-     */
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    /**
-     * Extracts the expiration date from a JWT.
-     *
-     * @param token JWT token
-     * @return expiration date
-     */
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    /**
-     * Extracts all claims from a JWT.
-     *
-     * @param token JWT token
-     * @return JWT claims
-     */
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
@@ -119,11 +71,6 @@ public class JwtService {
                 .getPayload();
     }
 
-    /**
-     * Creates the signing key used to sign and verify JWTs.
-     *
-     * @return JWT signing key
-     */
     private SecretKey getSigningKey() {
         byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
 

@@ -12,9 +12,7 @@ export function AuthProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const data = await authService.login(email, password);
-      const { token, ...userData } = data;
-      localStorage.setItem('learnhub_token', token);
+      const userData = await authService.login(email, password);
       localStorage.setItem('learnhub_user', JSON.stringify(userData));
       setUser(userData);
       return userData;
