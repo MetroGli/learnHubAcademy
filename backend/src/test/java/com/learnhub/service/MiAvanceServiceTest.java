@@ -69,9 +69,11 @@ class MiAvanceServiceTest {
     void presentarCalificaEnElServidorYGuardaLaNota() {
         Evaluacion evaluacion = mock(Evaluacion.class);
         when(evaluacion.getCurso()).thenReturn(curso);
-        when(evaluacion.getPreguntas()).thenReturn(List.of(
+        // Los mocks se crean antes de usarlos en thenReturn (Mockito no permite anidarlos).
+        List<Pregunta> preguntas = List.of(
                 pregunta(10L, opcion(100L, true), opcion(101L, false)),
-                pregunta(11L, opcion(110L, false), opcion(111L, true))));
+                pregunta(11L, opcion(110L, false), opcion(111L, true)));
+        when(evaluacion.getPreguntas()).thenReturn(preguntas);
         when(evaluacionRepository.findById(7L)).thenReturn(Optional.of(evaluacion));
         when(inscripcionRepository.existsByUsuarioIdAndCursoIdAndActivaTrue(3L, 1L)).thenReturn(true);
         when(calificacionRepository.findByUsuarioIdAndEvaluacionId(3L, 7L)).thenReturn(Optional.empty());
@@ -109,8 +111,9 @@ class MiAvanceServiceTest {
         when(leccionRepository.findById(20L)).thenReturn(Optional.of(leccion));
         when(inscripcionRepository.existsByUsuarioIdAndCursoIdAndActivaTrue(3L, 1L)).thenReturn(true);
         when(completadaRepository.findByUsuarioIdAndLeccionId(3L, 20L)).thenReturn(Optional.empty());
-        when(leccionRepository.findByModuloCursoId(1L))
-                .thenReturn(List.of(leccion, leccionDelCurso(21L), leccionDelCurso(22L), leccionDelCurso(23L)));
+        List<Leccion> delCurso = List.of(
+                leccion, leccionDelCurso(21L), leccionDelCurso(22L), leccionDelCurso(23L));
+        when(leccionRepository.findByModuloCursoId(1L)).thenReturn(delCurso);
 
         LeccionCompletada registro = new LeccionCompletada();
         registro.setLeccion(leccion);
@@ -130,7 +133,8 @@ class MiAvanceServiceTest {
 
     @Test
     void completarLeccionSinInscripcionEsRechazado() {
-        when(leccionRepository.findById(20L)).thenReturn(Optional.of(leccionDelCurso(20L)));
+        Leccion leccion = leccionDelCurso(20L);
+        when(leccionRepository.findById(20L)).thenReturn(Optional.of(leccion));
         when(inscripcionRepository.existsByUsuarioIdAndCursoIdAndActivaTrue(3L, 1L)).thenReturn(false);
 
         assertThrows(AccessDeniedException.class, () -> servicio.marcarLeccion(usuario, 20L, true));
