@@ -12,6 +12,14 @@ public class CursoResponse {
 
     private Long profesorId;
 
+    private String categoria;
+
+    private String nivel;
+
+    private Integer duracionHoras;
+
+    private String profesorNombre;
+
     public Long getId() {
         return id;
     }
@@ -50,5 +58,37 @@ public class CursoResponse {
 
     public void setProfesorId(Long profesorId) {
         this.profesorId = profesorId;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
+    }
+
+    public Integer getDuracionHoras() {
+        return duracionHoras;
+    }
+
+    public void setDuracionHoras(Integer duracionHoras) {
+        this.duracionHoras = duracionHoras;
+    }
+
+    public String getProfesorNombre() {
+        return profesorNombre;
+    }
+
+    public void setProfesorNombre(String profesorNombre) {
+        this.profesorNombre = profesorNombre;
     }
 }

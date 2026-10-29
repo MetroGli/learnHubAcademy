@@ -3,8 +3,8 @@ import {
   calificacionService,
   inscripcionService,
   progresoService,
-  usuarioService,
 } from '../api/resources';
+import { estudianteService } from '../api/avance.service';
 import { notaDeEvaluacion, promedioPonderado } from '../utils/notas';
 
 /**
@@ -42,9 +42,9 @@ export default function useCursoEstudiantes(cursoId, evaluaciones, activo) {
       setProgresos(allProgresos.filter((p) => p.cursoId === cursoIdNum));
       setCalificaciones(allCalificaciones);
 
-      // La lista de usuarios puede estar restringida según el rol.
+      // Nombres de los estudiantes (endpoint para profesores y administradores).
       try {
-        setUsuarios(await usuarioService.listar());
+        setUsuarios(await estudianteService.listar());
         setUsuariosDisponibles(true);
       } catch {
         setUsuarios([]);
@@ -98,7 +98,7 @@ export default function useCursoEstudiantes(cursoId, evaluaciones, activo) {
   const disponibles = useMemo(() => {
     const inscritos = new Set(inscripciones.map((i) => i.usuarioId));
     return usuarios.filter(
-      (u) => u.rol === 'ESTUDIANTE' && u.activo && !inscritos.has(u.id)
+      (u) => u.activo && !inscritos.has(u.id)
     );
   }, [usuarios, inscripciones]);
 

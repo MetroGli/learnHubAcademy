@@ -38,6 +38,10 @@ public class SecurityConfig {
                 ).permitAll()
                 .requestMatchers("/api/usuarios/**")
                     .hasRole("ADMINISTRADOR")
+                .requestMatchers("/api/estudiantes/**")
+                    .hasAnyRole("ADMINISTRADOR", "PROFESOR")
+                // Avance propio (lecciones completadas y presentar evaluaciones)
+                .requestMatchers("/api/mi-avance/**").authenticated()
                 // Contenido de los cursos: lo leen todos, lo gestionan profesores y administradores
                 .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
                 .requestMatchers(
@@ -49,13 +53,15 @@ public class SecurityConfig {
                     "/api/preguntas/**",
                     "/api/respuestas/**"
                 ).hasAnyRole("ADMINISTRADOR", "PROFESOR")
-                // El estudiante crea y actualiza sus propios registros (lo valida UsuarioActual),
-                // pero no puede borrarlos
-                .requestMatchers(HttpMethod.DELETE,
-                    "/api/inscripciones/**",
+                // Notas y progreso: el estudiante ya no los escribe directamente,
+                // los calcula el servidor desde /api/mi-avance
+                .requestMatchers(
                     "/api/progresos/**",
                     "/api/calificaciones/**"
                 ).hasAnyRole("ADMINISTRADOR", "PROFESOR")
+                // El estudiante se inscribe solo (lo valida UsuarioActual), pero no borra inscripciones
+                .requestMatchers(HttpMethod.DELETE, "/api/inscripciones/**")
+                    .hasAnyRole("ADMINISTRADOR", "PROFESOR")
                 .anyRequest().authenticated()
             )
             .exceptionHandling(e -> e

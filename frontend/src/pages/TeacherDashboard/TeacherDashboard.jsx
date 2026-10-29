@@ -6,12 +6,18 @@ import { getErrorMessage } from '../../api/errors';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import FormModal from '../../components/ui/FormModal';
-import '../../components/ui/ui.css';
+import Icon from '../../components/ui/Icon';
+import CourseCover from '../../components/ui/CourseCover';
+import StatCards from '../../components/ui/StatCards';
+import { CAMPOS_DETALLE_CURSO } from '../../utils/cursos';
+import { NOTA_MAXIMA, formatearNota } from '../../utils/notas';
 import './TeacherDashboard.css';
+import './TeacherDiseno.css';
 
 const CAMPOS_CURSO = [
   { name: 'nombre', label: 'Nombre del curso', required: true },
   { name: 'descripcion', label: 'Descripción', type: 'textarea', rows: 4 },
+  ...CAMPOS_DETALLE_CURSO,
   { name: 'activo', label: 'Curso activo (visible para los estudiantes)', type: 'checkbox' },
 ];
 
@@ -36,8 +42,15 @@ export default function TeacherDashboard() {
   const navigate = useNavigate();
 
   const filteredCourses = courses.filter((course) =>
-    course.nombre?.toLowerCase().includes(search.toLowerCase())
+    `${course.nombre} ${course.categoria ?? ''}`.toLowerCase().includes(search.toLowerCase())
   );
+
+  const media = (valores) => {
+    const v = valores.filter((x) => x !== null && x !== undefined);
+    return v.length ? v.reduce((t, x) => t + x, 0) / v.length : null;
+  };
+  const progresoGeneral = media(courses.map((c) => c.progresoMedio));
+  const notaGeneral = media(courses.map((c) => c.notaMedia));
 
   const entrarAlCurso = (courseId) => {
     navigate(`/curso/${courseId}`);
@@ -111,22 +124,15 @@ export default function TeacherDashboard() {
           </div>
         </div>
 
-        {!loading && !error && (
-          <div className="teacher-summary">
-            <div className="teacher-summary-card">
-              <span className="teacher-summary-label">CURSOS</span>
-              <strong>{totalCourses}</strong>
-              <span className="teacher-summary-description">Cursos asignados</span>
-            </div>
-
-            <div className="teacher-summary-card">
-              <span className="teacher-summary-label">ESTUDIANTES</span>
-              <strong>{totalStudents}</strong>
-              <span className="teacher-summary-description">
-                Estudiantes inscritos
-              </span>
-            </div>
-          </div>
+        {!loading && !error && courses.length > 0 && (
+          <StatCards
+            items={[
+              { label: 'Cursos', value: totalCourses, hint: `${courses.filter((c) => c.activo).length} activos`, icon: 'libro', tono: 'azul' },
+              { label: 'Estudiantes', value: totalStudents, hint: 'inscritos en tus cursos', icon: 'usuarios', tono: 'violeta' },
+              { label: 'Progreso medio', value: progresoGeneral === null ? '—' : `${Math.round(progresoGeneral)}%`, hint: 'de tus estudiantes', icon: 'grafica', tono: 'verde' },
+              { label: 'Nota media', value: formatearNota(notaGeneral), hint: `sobre ${NOTA_MAXIMA}`, icon: 'premio', tono: 'ambar' },
+            ]}
+          />
         )}
 
         {aviso && (
@@ -172,19 +178,27 @@ export default function TeacherDashboard() {
                 key={course.id}
                 onClick={() => entrarAlCurso(course.id)}
               >
-                <div className="teacher-course-cover">
-                  <span>{course.activo ? 'CURSO' : 'CURSO INACTIVO'}</span>
-                </div>
+                <CourseCover curso={course}>
+                  {!course.activo && <span className="lh-chip lh-chip-ambar">Inactivo</span>}
+                </CourseCover>
 
                 <div className="teacher-course-content">
                   <h3>{course.nombre}</h3>
                   <p>{course.descripcion || 'Sin descripción disponible.'}</p>
 
-                  <div className="teacher-course-meta">
-                    <span>
-                      {course.studentCount}{' '}
-                      {course.studentCount === 1 ? 'estudiante' : 'estudiantes'}
-                    </span>
+                  <div className="teacher-course-cifras">
+                    <div>
+                      <span>Estudiantes</span>
+                      <strong>{course.studentCount}</strong>
+                    </div>
+                    <div>
+                      <span>Progreso</span>
+                      <strong>{course.progresoMedio === null ? '—' : `${Math.round(course.progresoMedio)}%`}</strong>
+                    </div>
+                    <div>
+                      <span>Nota media</span>
+                      <strong>{formatearNota(course.notaMedia)}</strong>
+                    </div>
                   </div>
 
                   <div className="ui-row-actions teacher-course-actions">
@@ -219,8 +233,8 @@ export default function TeacherDashboard() {
                       entrarAlCurso(course.id);
                     }}
                   >
-                    Entrar al curso
-                    <span>→</span>
+                    Gestionar curso
+                    <Icon nombre="flecha" size={16} />
                   </button>
                 </div>
               </article>

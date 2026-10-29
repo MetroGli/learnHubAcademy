@@ -1,0 +1,77 @@
+/* Ajustes del panel del estudiante con las portadas por categoría. */
+
+.dashboard-main {
+  padding-top: 40px;
+}
+
+.courses-grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.course-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--lh-radius);
+  box-shadow: var(--lh-shadow);
+}
+
+.course-card::after {
+  display: none;
+}
+
+.course-card:hover {
+  box-shadow: var(--lh-shadow-hover);
+}
+
+.course-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.course-content h3 {
+  margin-bottom: 6px;
+  color: var(--lh-ink);
+}
+
+.course-content > p {
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.course-button {
+  justify-content: space-between;
+  text-decoration: none !important;
+}
+
+.course-progress {
+  margin-bottom: 14px;
+}
+
+a.lh-continuar {
+  color: inherit;
+  text-decoration: none;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+a.lh-continuar:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--lh-shadow-hover);
+}
+
+@media (max-width: 720px) {
+  .dashboard-main {
+    width: calc(100% - 32px);
+    padding-top: 28px;
+  }
+
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.course-button-action {
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+}

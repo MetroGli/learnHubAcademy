@@ -18,6 +18,9 @@ public class LeccionRequest {
     @NotNull(message = "El módulo es obligatorio")
     private Long moduloId;
 
+    @PositiveOrZero(message = "La duración no puede ser negativa")
+    private Integer duracionMinutos;
+
     public String getTitulo() {
         return titulo;
     }
@@ -48,5 +51,13 @@ public class LeccionRequest {
 
     public void setModuloId(Long moduloId) {
         this.moduloId = moduloId;
+    }
+
+    public Integer getDuracionMinutos() {
+        return duracionMinutos;
+    }
+
+    public void setDuracionMinutos(Integer duracionMinutos) {
+        this.duracionMinutos = duracionMinutos;
     }
 }

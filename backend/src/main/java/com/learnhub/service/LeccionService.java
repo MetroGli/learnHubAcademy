@@ -32,6 +32,7 @@ public class LeccionService {
         leccion.setTitulo(request.getTitulo());
         leccion.setContenido(request.getContenido());
         leccion.setOrden(request.getOrden());
+        leccion.setDuracionMinutos(request.getDuracionMinutos());
         leccion.setModulo(modulo);
 
         return convertirAResponse(leccionRepository.save(leccion));
@@ -64,6 +65,7 @@ public class LeccionService {
         leccion.setTitulo(request.getTitulo());
         leccion.setContenido(request.getContenido());
         leccion.setOrden(request.getOrden());
+        leccion.setDuracionMinutos(request.getDuracionMinutos());
         leccion.setModulo(modulo);
 
         return convertirAResponse(leccionRepository.save(leccion));
@@ -84,6 +86,7 @@ public class LeccionService {
         response.setTitulo(leccion.getTitulo());
         response.setContenido(leccion.getContenido());
         response.setOrden(leccion.getOrden());
+        response.setDuracionMinutos(leccion.getDuracionMinutos());
 
         if (leccion.getModulo() != null) {
             response.setModuloId(leccion.getModulo().getId());

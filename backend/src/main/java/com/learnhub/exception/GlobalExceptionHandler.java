@@ -19,6 +19,13 @@ public class GlobalExceptionHandler {
         return respuesta(HttpStatus.NOT_FOUND, exception.getMessage());
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Map<String, Object>> estadoInvalido(
+            IllegalStateException exception) {
+
+        return respuesta(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
     @ExceptionHandler(ConflictoException.class)
     public ResponseEntity<Map<String, Object>> conflicto(
             ConflictoException exception) {

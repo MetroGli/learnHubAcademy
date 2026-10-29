@@ -33,6 +33,9 @@ public class CursoService {
         curso.setDescripcion(request.getDescripcion());
         curso.setActivo(request.isActivo());
         curso.setProfesor(profesor);
+        curso.setCategoria(limpiar(request.getCategoria()));
+        curso.setNivel(limpiar(request.getNivel()));
+        curso.setDuracionHoras(request.getDuracionHoras());
 
         return convertirAResponse(cursoRepository.save(curso));
     }
@@ -65,6 +68,9 @@ public class CursoService {
         curso.setDescripcion(request.getDescripcion());
         curso.setActivo(request.isActivo());
         curso.setProfesor(profesor);
+        curso.setCategoria(limpiar(request.getCategoria()));
+        curso.setNivel(limpiar(request.getNivel()));
+        curso.setDuracionHoras(request.getDuracionHoras());
 
         return convertirAResponse(cursoRepository.save(curso));
     }
@@ -87,8 +93,18 @@ public class CursoService {
 
         if (curso.getProfesor() != null) {
             response.setProfesorId(curso.getProfesor().getId());
+            response.setProfesorNombre(curso.getProfesor().getNombre()
+                    + " " + curso.getProfesor().getApellido());
         }
 
+        response.setCategoria(curso.getCategoria());
+        response.setNivel(curso.getNivel());
+        response.setDuracionHoras(curso.getDuracionHoras());
+
         return response;
+    }
+
+    private String limpiar(String texto) {
+        return texto == null || texto.isBlank() ? null : texto.trim();
     }
 }

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAdminCursos } from '../../hooks/useAdminCatalogo';
 import { getErrorMessage } from '../../api/errors';
 import FormModal from '../../components/ui/FormModal';
+import { CAMPOS_DETALLE_CURSO, NIVELES, categoriaDe, payloadCurso } from '../../utils/cursos';
+import Icon from '../../components/ui/Icon';
 import '../../components/ui/ui.css';
 
 export default function CursosTab({ search }) {
@@ -24,8 +26,8 @@ export default function CursosTab({ search }) {
       .includes(search.toLowerCase())
   );
 
-  const guardar = async ({ nombre, descripcion, profesorId, activo }) => {
-    const payload = { nombre, descripcion, profesorId, activo };
+  const guardar = async (valores) => {
+    const payload = payloadCurso(valores, valores.profesorId);
     if (dialogo.modo === 'crear') await crear(payload);
     else await actualizar(dialogo.curso.id, payload);
   };
@@ -122,14 +124,22 @@ export default function CursosTab({ search }) {
               {filtrados.map((curso) => (
                 <tr key={curso.id}>
                   <td>
-                    <strong>{curso.nombre}</strong>
-                    {curso.descripcion && (
-                      <div className="admin-celda-detalle">
-                        {curso.descripcion.length > 80
-                          ? `${curso.descripcion.slice(0, 79)}…`
-                          : curso.descripcion}
-                      </div>
-                    )}
+                    <div className="lh-persona">
+                      <span
+                        className="admin-curso-icono"
+                        style={{ '--c1': categoriaDe(curso).c1, '--c2': categoriaDe(curso).c2 }}
+                      >
+                        <Icon nombre={categoriaDe(curso).icono} size={18} />
+                      </span>
+                      <span className="lh-persona-texto">
+                        <strong>{curso.nombre}</strong>
+                        <span>
+                          {[curso.categoria, NIVELES[curso.nivel], curso.duracionHoras && `${curso.duracionHoras} h`]
+                            .filter(Boolean)
+                            .join(' · ') || 'Sin categoría'}
+                        </span>
+                      </span>
+                    </div>
                   </td>
                   <td>{nombreProfesor(curso.profesorId)}</td>
                   <td>
@@ -175,6 +185,7 @@ export default function CursosTab({ search }) {
               label: `${p.nombre} ${p.apellido}`,
             })),
           },
+          ...CAMPOS_DETALLE_CURSO,
           { name: 'activo', label: 'Curso activo (visible para los estudiantes)', type: 'checkbox' },
         ]}
         initialValues={dialogo?.modo === 'editar' ? dialogo.curso : { activo: true }}

@@ -1,22 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { calificacionService, progresoService } from '../api/resources';
+import { calificacionService } from '../api/resources';
+import { avanceService } from '../api/avance.service';
 import { useAuth } from '../context/AuthContext';
-import { leerCompletadas, guardarCompletadas } from '../utils/completadas';
 
 /**
- * Avance del estudiante en un curso: porcentaje (tabla progresos),
- * notas (tabla calificaciones) y lecciones marcadas como completadas.
+ * Avance del estudiante en un curso. Las lecciones completadas, el porcentaje
+ * y las notas se guardan y calculan en el servidor.
  */
 export default function useMiAvance(cursoId, lecciones, evaluaciones, activo) {
   const { user } = useAuth();
   const usuarioId = user?.id;
-  const cursoIdNum = Number(cursoId);
 
-  const [progreso, setProgreso] = useState(null);
+  const [avance, setAvance] = useState(null);
   const [todasCalificaciones, setTodasCalificaciones] = useState([]);
-  const [completadas, setCompletadas] = useState(() =>
-    leerCompletadas(usuarioId, cursoIdNum)
-  );
   const [loading, setLoading] = useState(Boolean(activo));
   const [error, setError] = useState(null);
 
@@ -31,21 +27,14 @@ export default function useMiAvance(cursoId, lecciones, evaluaciones, activo) {
     const cargar = async () => {
       try {
         setLoading(true);
-        const [progresos, calificaciones] = await Promise.all([
-          progresoService.listar(),
+        const [datosAvance, calificaciones] = await Promise.all([
+          avanceService.delCurso(cursoId),
           calificacionService.listar(),
         ]);
         if (cancelado) return;
 
-        setProgreso(
-          progresos.find(
-            (p) => p.usuarioId === usuarioId && p.cursoId === cursoIdNum
-          ) ?? null
-        );
-        setTodasCalificaciones(
-          calificaciones.filter((c) => c.usuarioId === usuarioId)
-        );
-        setCompletadas(leerCompletadas(usuarioId, cursoIdNum));
+        setAvance(datosAvance);
+        setTodasCalificaciones(calificaciones.filter((c) => c.usuarioId === usuarioId));
       } catch (err) {
         console.error('Error cargando tu avance:', err);
         if (!cancelado) setError('No se pudo cargar tu avance.');
@@ -58,7 +47,12 @@ export default function useMiAvance(cursoId, lecciones, evaluaciones, activo) {
     return () => {
       cancelado = true;
     };
-  }, [activo, usuarioId, cursoIdNum]);
+  }, [activo, usuarioId, cursoId]);
+
+  const completadas = useMemo(
+    () => new Set(avance?.leccionesCompletadas ?? []),
+    [avance]
+  );
 
   // Solo las notas de las evaluaciones de este curso.
   const calificaciones = useMemo(() => {
@@ -71,70 +65,56 @@ export default function useMiAvance(cursoId, lecciones, evaluaciones, activo) {
     [lecciones, completadas]
   );
 
-  const guardarProgreso = useCallback(
-    async (porcentaje) => {
-      const payload = { usuarioId, cursoId: cursoIdNum, porcentaje };
-      const guardado = progreso
-        ? await progresoService.actualizar(progreso.id, payload)
-        : await progresoService.crear(payload);
-      setProgreso(guardado);
-    },
-    [progreso, usuarioId, cursoIdNum]
+  /** Primera lección (en orden) que todavía no se ha completado. */
+  const siguienteLeccion = useMemo(
+    () => lecciones.find((l) => !completadas.has(l.id)) ?? null,
+    [lecciones, completadas]
   );
 
   const toggleLeccion = useCallback(
     async (leccionId) => {
-      const siguiente = new Set(completadas);
-      if (siguiente.has(leccionId)) siguiente.delete(leccionId);
-      else siguiente.add(leccionId);
+      const completar = !completadas.has(leccionId);
+      const anterior = avance;
 
-      const total = lecciones.length;
-      const hechas = lecciones.filter((l) => siguiente.has(l.id)).length;
-      const porcentaje = total > 0 ? Math.round((hechas / total) * 100) : 0;
-
-      setCompletadas(siguiente);
-      guardarCompletadas(usuarioId, cursoIdNum, siguiente);
+      // Se actualiza la pantalla de inmediato y se corrige con la respuesta del servidor.
+      setAvance((actual) => ({
+        ...actual,
+        leccionesCompletadas: completar
+          ? [...(actual?.leccionesCompletadas ?? []), leccionId]
+          : (actual?.leccionesCompletadas ?? []).filter((id) => id !== leccionId),
+      }));
 
       try {
-        await guardarProgreso(porcentaje);
+        setAvance(await avanceService.marcarLeccion(leccionId, completar));
       } catch (err) {
-        // Se revierte para que la pantalla no muestre algo que no se guardó.
-        setCompletadas(completadas);
-        guardarCompletadas(usuarioId, cursoIdNum, completadas);
+        setAvance(anterior);
         throw err;
       }
     },
-    [completadas, lecciones, guardarProgreso, usuarioId, cursoIdNum]
+    [avance, completadas]
   );
 
-  const registrarNota = useCallback(
-    async (evaluacionId, nota) => {
-      const existente = todasCalificaciones.find(
-        (c) => c.evaluacionId === evaluacionId
-      );
-      const payload = { usuarioId, evaluacionId, nota };
+  /** Envía las respuestas; el servidor califica y guarda la nota. */
+  const presentarEvaluacion = useCallback(async (evaluacionId, respuestas) => {
+    const resultado = await avanceService.presentarEvaluacion(evaluacionId, respuestas);
 
-      const guardada = existente
-        ? await calificacionService.actualizar(existente.id, payload)
-        : await calificacionService.crear(payload);
+    setTodasCalificaciones((actuales) => [
+      ...actuales.filter((c) => c.evaluacionId !== evaluacionId),
+      { evaluacionId, usuarioId, nota: resultado.nota },
+    ]);
 
-      setTodasCalificaciones((actuales) => [
-        ...actuales.filter((c) => c.evaluacionId !== evaluacionId),
-        guardada,
-      ]);
-    },
-    [todasCalificaciones, usuarioId]
-  );
+    return resultado;
+  }, [usuarioId]);
 
   return {
-    progreso,
-    porcentaje: progreso?.porcentaje ?? 0,
+    porcentaje: avance?.porcentaje ?? 0,
     calificaciones,
     completadas,
     leccionesCompletadas,
+    siguienteLeccion,
     loading,
     error,
     toggleLeccion,
-    registrarNota,
+    presentarEvaluacion,
   };
 }

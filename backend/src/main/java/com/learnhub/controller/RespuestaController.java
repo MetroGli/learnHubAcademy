@@ -4,6 +4,7 @@ import com.learnhub.dto.RespuestaRequest;
 import com.learnhub.dto.RespuestaResponse;
 import com.learnhub.service.RespuestaService;
 import jakarta.validation.Valid;
+import com.learnhub.security.UsuarioActual;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class RespuestaController {
 
     private final RespuestaService respuestaService;
+    private final UsuarioActual usuarioActual;
 
-    public RespuestaController(RespuestaService respuestaService) {
+    public RespuestaController(
+            RespuestaService respuestaService,
+            UsuarioActual usuarioActual) {
         this.respuestaService = respuestaService;
+        this.usuarioActual = usuarioActual;
     }
 
     @PostMapping
@@ -37,15 +42,23 @@ public class RespuestaController {
 
     @GetMapping
     public ResponseEntity<List<RespuestaResponse>> listar() {
-        return ResponseEntity.ok(respuestaService.listarRespuestas());
+        List<RespuestaResponse> respuestas = respuestaService.listarRespuestas();
+
+        if (usuarioActual.esEstudiante()) {
+            respuestas.forEach(r -> r.setCorrecta(null));
+        }
+
+        return ResponseEntity.ok(respuestas);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaResponse> buscar(
             @PathVariable Long id) {
 
-        return ResponseEntity.ok(
-                respuestaService.buscarRespuestaPorId(id));
+        RespuestaResponse respuesta = respuestaService.buscarRespuestaPorId(id);
+        ocultarSiEsEstudiante(respuesta);
+
+        return ResponseEntity.ok(respuesta);
     }
 
     @PutMapping("/{id}")
@@ -63,5 +76,13 @@ public class RespuestaController {
         respuestaService.eliminarRespuesta(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    // El estudiante no debe saber cuál es la opción correcta antes de responder:
+    // la evaluación se califica en el servidor (/api/mi-avance/evaluaciones).
+    private void ocultarSiEsEstudiante(RespuestaResponse respuesta) {
+        if (usuarioActual.esEstudiante()) {
+            respuesta.setCorrecta(null);
+        }
     }
 }

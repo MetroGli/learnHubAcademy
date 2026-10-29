@@ -26,11 +26,15 @@ export default function UsuariosTab({ search }) {
   const [formError, setFormError] = useState(null);
   const [guardando, setGuardando] = useState(false);
 
+  const [rol, setRol] = useState(null);
+
   const usuariosFiltrados = usuarios.filter((usuario) => {
     const texto = `${usuario.nombre} ${usuario.apellido} ${usuario.email}`
       .toLowerCase();
-    return texto.includes(search.toLowerCase());
+    return texto.includes(search.toLowerCase()) && (!rol || usuario.rol === rol);
   });
+
+  const conteo = (r) => usuarios.filter((u) => u.rol === r).length;
 
   const abrirFormularioCrear = () => {
     setEditandoId(null);
@@ -121,6 +125,26 @@ export default function UsuariosTab({ search }) {
           </div>
         </div>
 
+        {!loading && !error && (
+          <div className="lh-filtros" role="group" aria-label="Filtrar por rol">
+            {[
+              [null, 'Todos', usuarios.length],
+              ['ESTUDIANTE', 'Estudiantes', conteo('ESTUDIANTE')],
+              ['PROFESOR', 'Profesores', conteo('PROFESOR')],
+              ['ADMINISTRADOR', 'Administradores', conteo('ADMINISTRADOR')],
+            ].map(([valor, etiqueta, n]) => (
+              <button
+                type="button"
+                key={etiqueta}
+                className={`lh-filtro${rol === valor ? ' activo' : ''}`}
+                onClick={() => setRol(valor)}
+              >
+                {etiqueta} <span className="admin-filtro-n">{n}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
         {loading && (
           <div className="admin-state">
             <div className="loader"></div>
@@ -167,12 +191,12 @@ export default function UsuariosTab({ search }) {
                   <tr key={usuario.id}>
                     <td>
                       <div className="admin-user-cell">
-                        <div className="admin-user-avatar">
-                          {usuario.nombre?.charAt(0).toUpperCase()}
-                        </div>
-                        <span>
-                          {usuario.nombre} {usuario.apellido}
+                        <span className={`lh-avatar admin-avatar-${usuario.rol?.toLowerCase()}`}>
+                          {`${usuario.nombre?.charAt(0) ?? ''}${usuario.apellido?.charAt(0) ?? ''}`.toUpperCase()}
                         </span>
+                        <strong>
+                          {usuario.nombre} {usuario.apellido}
+                        </strong>
                       </div>
                     </td>
                     <td>{usuario.email}</td>

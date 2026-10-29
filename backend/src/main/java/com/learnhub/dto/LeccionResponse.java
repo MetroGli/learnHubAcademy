@@ -12,6 +12,8 @@ public class LeccionResponse {
 
     private Long moduloId;
 
+    private Integer duracionMinutos;
+
     public Long getId() {
         return id;
     }
@@ -50,5 +52,13 @@ public class LeccionResponse {
 
     public void setModuloId(Long moduloId) {
         this.moduloId = moduloId;
+    }
+
+    public Integer getDuracionMinutos() {
+        return duracionMinutos;
+    }
+
+    public void setDuracionMinutos(Integer duracionMinutos) {
+        this.duracionMinutos = duracionMinutos;
     }
 }

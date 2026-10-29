@@ -132,10 +132,13 @@ profesores y estudiantes.
 > Si el proyecto pasó por Windows y el script da `bad interpreter` o errores raros, tiene finales
 > de línea de Windows. Arréglalo con: `sed -i 's/\r$//' scripts/crear-admin.sh`
 
-**Datos de ejemplo** (para una demostración): carga los usuarios, cursos y evaluaciones de prueba.
-Solo en una base de datos vacía, porque este archivo borra lo que haya:
+**Datos de ejemplo** (para una demostración): 23 usuarios, 9 cursos con 59 lecciones, 15
+evaluaciones con 63 preguntas, inscripciones, avance y notas. El archivo **borra lo que haya**, así
+que primero respalda la base. Ejecútalo después de levantar el backend al menos una vez (el backend
+crea las tablas y columnas nuevas):
 
 ```bash
+docker compose -f docker-compose.prod.yml exec -T db sh -c 'pg_dump -U "$POSTGRES_USER" "$POSTGRES_DB"' > respaldo-$(date +%F).sql
 docker compose -f docker-compose.prod.yml cp database/learnhub_seed.sql db:/tmp/seed.sql
 docker compose -f docker-compose.prod.yml exec -T db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /tmp/seed.sql'
 ```

@@ -25,6 +25,15 @@ public class Curso {
     @JoinColumn(name = "profesor_id", nullable = false)
     private Usuario profesor;
 
+    @Column(length = 60)
+    private String categoria;
+
+    @Column(length = 20)
+    private String nivel;
+
+    @Column(name = "duracion_horas")
+    private Integer duracionHoras;
+
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Modulo> modulos = new ArrayList<>();
 
@@ -70,5 +79,29 @@ public class Curso {
 
     public void setModulos(List<Modulo> modulos) {
         this.modulos = modulos;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
+    }
+
+    public Integer getDuracionHoras() {
+        return duracionHoras;
+    }
+
+    public void setDuracionHoras(Integer duracionHoras) {
+        this.duracionHoras = duracionHoras;
     }
 }

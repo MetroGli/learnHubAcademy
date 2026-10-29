@@ -4,9 +4,20 @@ import ProgressBar from '../../components/ui/ProgressBar';
 import useCursoEstudiantes from '../../hooks/useCursoEstudiantes';
 import { getErrorMessage } from '../../api/errors';
 import { NOTA_MAXIMA, formatearNota } from '../../utils/notas';
+import Icon from '../../components/ui/Icon';
+import StatCards from '../../components/ui/StatCards';
+
+const iniciales = (nombre) =>
+  nombre
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0])
+    .join('')
+    .toUpperCase();
 
 /** Estudiantes del curso: inscripción, progreso y calificaciones (profesor/administrador). */
-export default function EstudiantesView({ cursoId, evaluaciones }) {
+export default function EstudiantesView({ cursoId, curso, evaluaciones }) {
   const {
     filas,
     disponibles,
@@ -22,6 +33,45 @@ export default function EstudiantesView({ cursoId, evaluaciones }) {
   const [inscribiendo, setInscribiendo] = useState(false);
   const [calificando, setCalificando] = useState(null); // { fila, evaluacion }
   const [aviso, setAviso] = useState(null);
+
+  const activas = filas.filter((f) => f.inscripcion.activa);
+  const conPromedio = activas.filter((f) => f.promedio !== null);
+  const progresoMedio = activas.length
+    ? activas.reduce((t, f) => t + Number(f.porcentaje || 0), 0) / activas.length
+    : 0;
+  const promedioCurso = conPromedio.length
+    ? conPromedio.reduce((t, f) => t + f.promedio, 0) / conPromedio.length
+    : null;
+  const aprobados = conPromedio.filter((f) => f.promedio >= NOTA_MAXIMA * 0.6).length;
+
+  // Descarga un CSV con progreso y notas (se abre en Excel o Google Sheets).
+  const descargarCsv = () => {
+    const celda = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const encabezado = [
+      'Estudiante',
+      'Correo',
+      'Progreso (%)',
+      ...evaluaciones.map((e) => `${e.titulo} (${e.porcentaje}%)`),
+      'Promedio',
+      'Estado',
+    ];
+    const lineas = filas.map((f) => [
+      f.nombre,
+      f.usuario?.email ?? '',
+      Math.round(f.porcentaje),
+      ...evaluaciones.map((e) => formatearNota(notaDeEvaluacion(f.notas, e.id)).replace('—', '')),
+      formatearNota(f.promedio).replace('—', ''),
+      f.inscripcion.activa ? 'Activa' : 'De baja',
+    ]);
+    const csv = [encabezado, ...lineas].map((l) => l.map(celda).join(';')).join('\r\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `notas-${(curso?.nombre ?? 'curso').toLowerCase().replace(/[^a-z0-9áéíóúñ]+/gi, '-')}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const handleEstado = async (inscripcion) => {
     setAviso(null);
@@ -53,15 +103,36 @@ export default function EstudiantesView({ cursoId, evaluaciones }) {
     <section className="curso-estudiantes">
       <div className="ui-section-head">
         <h2>Estudiantes</h2>
-        <button
-          type="button"
-          className="ui-btn ui-btn-primary ui-btn-sm"
-          disabled={!usuariosDisponibles || disponibles.length === 0}
-          onClick={() => setInscribiendo(true)}
-        >
-          + Inscribir estudiante
-        </button>
+        <div className="ui-row-actions">
+          <button
+            type="button"
+            className="ui-btn ui-btn-ghost ui-btn-sm"
+            disabled={filas.length === 0}
+            onClick={descargarCsv}
+          >
+            <Icon nombre="descarga" size={15} /> Descargar notas (CSV)
+          </button>
+          <button
+            type="button"
+            className="ui-btn ui-btn-primary ui-btn-sm"
+            disabled={!usuariosDisponibles || disponibles.length === 0}
+            onClick={() => setInscribiendo(true)}
+          >
+            + Inscribir estudiante
+          </button>
+        </div>
       </div>
+
+      {filas.length > 0 && (
+        <StatCards
+          items={[
+            { label: 'Inscritos', value: activas.length, hint: `${filas.length - activas.length} dados de baja`, icon: 'usuarios', tono: 'azul' },
+            { label: 'Progreso medio', value: `${Math.round(progresoMedio)}%`, hint: 'de las lecciones', icon: 'grafica', tono: 'violeta' },
+            { label: 'Promedio del curso', value: formatearNota(promedioCurso), hint: `sobre ${NOTA_MAXIMA}`, icon: 'premio', tono: 'ambar' },
+            { label: 'Aprobando', value: `${aprobados}/${conPromedio.length}`, hint: 'con nota ≥ 3', icon: 'checkCirculo', tono: 'verde' },
+          ]}
+        />
+      )}
 
       {!usuariosDisponibles && (
         <p className="ui-notice ui-notice-warn">
@@ -106,10 +177,13 @@ export default function EstudiantesView({ cursoId, evaluaciones }) {
               {filas.map((fila) => (
                 <tr key={fila.inscripcion.id}>
                   <td>
-                    <strong>{fila.nombre}</strong>
-                    {fila.usuario && (
-                      <div className="curso-email">{fila.usuario.email}</div>
-                    )}
+                    <div className="lh-persona">
+                      <span className="lh-avatar">{iniciales(fila.nombre)}</span>
+                      <span className="lh-persona-texto">
+                        <strong>{fila.nombre}</strong>
+                        {fila.usuario && <span>{fila.usuario.email}</span>}
+                      </span>
+                    </div>
                   </td>
                   <td className="curso-celda-progreso">
                     <ProgressBar value={fila.porcentaje} label={null} />

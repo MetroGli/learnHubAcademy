@@ -25,6 +25,9 @@ public class Leccion {
     @JoinColumn(name = "modulo_id", nullable = false)
     private Modulo modulo;
 
+    @Column(name = "duracion_minutos")
+    private Integer duracionMinutos;
+
     @OneToMany(mappedBy = "leccion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recurso> recursos = new ArrayList<>();
 
@@ -70,5 +73,13 @@ public class Leccion {
 
     public void setRecursos(List<Recurso> recursos) {
         this.recursos = recursos;
+    }
+
+    public Integer getDuracionMinutos() {
+        return duracionMinutos;
+    }
+
+    public void setDuracionMinutos(Integer duracionMinutos) {
+        this.duracionMinutos = duracionMinutos;
     }
 }

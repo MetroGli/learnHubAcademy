@@ -4,6 +4,7 @@ import { evaluacionService } from '../../api/resources';
 import { getErrorMessage } from '../../api/errors';
 import { NOTA_MAXIMA, formatearNota, notaDeEvaluacion } from '../../utils/notas';
 import QuizModal from './QuizModal';
+import Icon from '../../components/ui/Icon';
 import PreguntasManager from './PreguntasManager';
 
 const CAMPOS_EVALUACION = [
@@ -23,7 +24,7 @@ const CAMPOS_EVALUACION = [
 /**
  * Evaluaciones de un curso.
  * - gestion=true: crear/editar/eliminar evaluaciones y administrar sus preguntas.
- * - onRegistrarNota: el estudiante presenta la evaluación y se guarda su nota.
+ * - onPresentar: el estudiante presenta la evaluación; el servidor la califica.
  */
 export default function EvaluacionesView({
   cursoId,
@@ -33,7 +34,7 @@ export default function EvaluacionesView({
   gestion,
   onChange,
   calificaciones = [],
-  onRegistrarNota,
+  onPresentar,
 }) {
   const [dialogo, setDialogo] = useState(null); // { modo, registro }
   const [quizDe, setQuizDe] = useState(null);
@@ -124,6 +125,9 @@ export default function EvaluacionesView({
 
           return (
             <div className="evaluacion-card" key={evaluacion.id}>
+              <span className={`evaluacion-icono${nota !== null ? ' presentada' : ''}`} aria-hidden="true">
+                <Icon nombre={nota !== null ? 'premio' : 'quiz'} size={22} />
+              </span>
               <div className="evaluacion-info">
                 <h3>{evaluacion.titulo}</h3>
                 {evaluacion.descripcion && <p>{evaluacion.descripcion}</p>}
@@ -132,7 +136,7 @@ export default function EvaluacionesView({
                   <span className="evaluacion-preguntas">
                     {total} {total === 1 ? 'pregunta' : 'preguntas'}
                   </span>
-                  {onRegistrarNota && (
+                  {onPresentar && (
                     <span className={`ui-badge ${nota === null ? 'ui-badge-off' : 'ui-badge-ok'}`}>
                       {nota === null
                         ? 'Sin presentar'
@@ -142,7 +146,7 @@ export default function EvaluacionesView({
                 </div>
               </div>
 
-              {onRegistrarNota && (
+              {onPresentar && (
                 <button
                   type="button"
                   className="ui-btn ui-btn-primary ui-btn-sm"
@@ -188,13 +192,13 @@ export default function EvaluacionesView({
         onClose={() => setDialogo(null)}
       />
 
-      {evaluacionDelQuiz && onRegistrarNota && (
+      {evaluacionDelQuiz && onPresentar && (
         <QuizModal
           evaluacion={evaluacionDelQuiz}
           preguntas={respondibles(evaluacionDelQuiz.id)}
           respuestas={respuestas}
           notaActual={notaDeEvaluacion(calificaciones, evaluacionDelQuiz.id)}
-          onGuardar={(nota) => onRegistrarNota(evaluacionDelQuiz.id, nota)}
+          onPresentar={(elecciones) => onPresentar(evaluacionDelQuiz.id, elecciones)}
           onClose={() => setQuizDe(null)}
         />
       )}

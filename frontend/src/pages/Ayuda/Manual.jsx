@@ -68,9 +68,10 @@ export default function Manual() {
           </li>
           <li>
             Dentro de un curso, en <strong>Contenido</strong>, abre un módulo con
-            el <strong>+</strong> para ver sus lecciones y recursos. Marca cada
-            lección con <strong>Marcar como completada</strong>: tu porcentaje de
-            progreso se actualiza solo.
+            el <strong>+</strong> y haz clic en una lección para leerla con sus
+            recursos. Márcala con <strong>Marcar como completada</strong> (o con el
+            círculo de la lista): tu porcentaje de progreso se actualiza solo. El
+            botón <strong>Continuar</strong> te lleva a la siguiente lección pendiente.
           </li>
           <li>
             En <strong>Evaluaciones</strong> presenta cada evaluación con{' '}

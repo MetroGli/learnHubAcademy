@@ -1,0 +1,454 @@
+/* Componentes visuales compartidos de LearnHub (portadas, indicadores, anillos, chips...). */
+
+:root {
+  --lh-ink: #10213b;
+  --lh-ink-soft: #3c4f6b;
+  --lh-muted: #6b7c95;
+  --lh-line: rgba(18, 49, 86, 0.1);
+  --lh-surface: #ffffff;
+  --lh-blue: #1c5fa8;
+  --lh-blue-soft: #eaf3fc;
+  --lh-green: #1c7a46;
+  --lh-green-soft: #e6f6ec;
+  --lh-amber: #9a6100;
+  --lh-amber-soft: #fff3dc;
+  --lh-violet: #6233c4;
+  --lh-violet-soft: #f0eafd;
+  --lh-rose: #b4234a;
+  --lh-rose-soft: #fdebf0;
+  --lh-radius: 16px;
+  --lh-shadow: 0 1px 2px rgba(16, 33, 59, 0.06), 0 8px 24px rgba(16, 33, 59, 0.06);
+  --lh-shadow-hover: 0 2px 4px rgba(16, 33, 59, 0.08), 0 16px 36px rgba(16, 33, 59, 0.12);
+}
+
+.lh-icon {
+  flex-shrink: 0;
+}
+
+/* ---------- Chips ---------- */
+.lh-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  background: var(--lh-blue-soft);
+  color: var(--lh-blue);
+}
+
+.lh-chip-glass {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(6px);
+}
+
+.lh-chip-gris {
+  background: #eef2f7;
+  color: var(--lh-ink-soft);
+}
+
+.lh-chip-verde {
+  background: var(--lh-green-soft);
+  color: var(--lh-green);
+}
+
+.lh-chip-ambar {
+  background: var(--lh-amber-soft);
+  color: var(--lh-amber);
+}
+
+.lh-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Filtros por categoría */
+.lh-filtros {
+  display: flex;
+  gap: 8px;
+  margin: -6px 0 22px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.lh-filtro {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--lh-line);
+  background: var(--lh-surface);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--lh-ink-soft);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.lh-filtro:hover {
+  border-color: rgba(28, 95, 168, 0.4);
+  color: var(--lh-blue);
+}
+
+.lh-filtro.activo {
+  background: var(--lh-ink);
+  border-color: var(--lh-ink);
+  color: #ffffff;
+}
+
+.lh-filtro-punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+}
+
+/* ---------- Portada de curso ---------- */
+.lh-cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  overflow: hidden;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.22), transparent 45%),
+    linear-gradient(135deg, var(--c1), var(--c2));
+}
+
+.lh-cover-md {
+  height: 150px;
+}
+
+.lh-cover-sm {
+  height: 112px;
+  padding: 12px 14px;
+}
+
+.lh-cover-lg {
+  min-height: 220px;
+}
+
+.lh-cover-art {
+  position: absolute;
+  right: -14px;
+  bottom: -22px;
+  opacity: 0.2;
+  color: #ffffff;
+  pointer-events: none;
+}
+
+.lh-cover-top,
+.lh-cover-bottom {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.lh-cover-top {
+  justify-content: space-between;
+}
+
+/* ---------- Indicadores ---------- */
+.lh-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.lh-stat {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--lh-surface);
+  border: 1px solid var(--lh-line);
+  border-radius: var(--lh-radius);
+  box-shadow: var(--lh-shadow);
+}
+
+.lh-stat-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--fondo);
+  color: var(--tinta);
+}
+
+.lh-stat-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.lh-stat-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lh-muted);
+}
+
+.lh-stat-value {
+  font-size: 1.55rem;
+  line-height: 1.2;
+  color: var(--lh-ink);
+}
+
+.lh-stat-hint {
+  font-size: 0.78rem;
+  color: var(--lh-muted);
+}
+
+.lh-tono-azul { --fondo: var(--lh-blue-soft); --tinta: var(--lh-blue); }
+.lh-tono-verde { --fondo: var(--lh-green-soft); --tinta: var(--lh-green); }
+.lh-tono-ambar { --fondo: var(--lh-amber-soft); --tinta: var(--lh-amber); }
+.lh-tono-violeta { --fondo: var(--lh-violet-soft); --tinta: var(--lh-violet); }
+.lh-tono-rosa { --fondo: var(--lh-rose-soft); --tinta: var(--lh-rose); }
+
+/* ---------- Anillo de progreso ---------- */
+.lh-ring {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.lh-ring circle {
+  fill: none;
+}
+
+.lh-ring-fondo {
+  stroke: #e3ebf4;
+}
+
+.lh-ring-valor {
+  stroke: var(--lh-blue);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.lh-ring-centro {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: var(--lh-ink);
+}
+
+.lh-ring-centro strong {
+  font-size: 1.1rem;
+}
+
+/* ---------- Texto de lecciones ---------- */
+.lh-richtext {
+  color: var(--lh-ink-soft);
+  line-height: 1.7;
+  font-size: 0.97rem;
+}
+
+.lh-richtext p {
+  margin: 0 0 12px;
+}
+
+.lh-richtext ul {
+  margin: 0 0 12px;
+  padding-left: 22px;
+}
+
+.lh-richtext li {
+  margin-bottom: 6px;
+}
+
+.lh-richtext li::marker {
+  color: var(--lh-blue);
+}
+
+.lh-richtext code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: #eef2f7;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.86em;
+  color: var(--lh-ink);
+}
+
+.lh-richtext > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Encabezado de sección con saludo ---------- */
+.lh-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.lh-hero-kicker {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lh-blue);
+}
+
+.lh-hero h1,
+.lh-hero h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  letter-spacing: -0.02em;
+  color: var(--lh-ink);
+}
+
+.lh-hero p {
+  margin: 6px 0 0;
+  color: var(--lh-muted);
+}
+
+/* ---------- Tarjeta "continuar" ---------- */
+.lh-continuar {
+  display: grid;
+  grid-template-columns: 220px 1fr auto;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 30px;
+  overflow: hidden;
+  background: var(--lh-surface);
+  border: 1px solid var(--lh-line);
+  border-radius: 20px;
+  box-shadow: var(--lh-shadow);
+}
+
+.lh-continuar .lh-cover {
+  height: 100%;
+  min-height: 140px;
+}
+
+.lh-continuar-info {
+  padding: 18px 0;
+  min-width: 0;
+}
+
+.lh-continuar-info h3 {
+  margin: 4px 0 6px;
+  font-size: 1.2rem;
+  color: var(--lh-ink);
+}
+
+.lh-continuar-info p {
+  margin: 0 0 12px;
+  color: var(--lh-muted);
+  font-size: 0.9rem;
+}
+
+.lh-continuar-accion {
+  padding-right: 24px;
+}
+
+@media (max-width: 760px) {
+  .lh-continuar {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .lh-continuar .lh-cover {
+    min-height: 110px;
+  }
+
+  .lh-continuar-info {
+    padding: 16px 18px 6px;
+  }
+
+  .lh-continuar-accion {
+    padding: 0 18px 18px;
+  }
+}
+
+/* ---------- Metadatos de tarjeta ---------- */
+.lh-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 0 0 14px;
+  font-size: 0.8rem;
+  color: var(--lh-muted);
+}
+
+.lh-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ---------- Avatar con iniciales ---------- */
+.lh-avatar {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--c1, #1c5fa8), var(--c2, #4a9fe8));
+}
+
+.lh-persona {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.lh-persona-texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.lh-persona-texto strong {
+  color: var(--lh-ink);
+  font-size: 0.9rem;
+}
+
+.lh-persona-texto span {
+  color: var(--lh-muted);
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Animación de entrada ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .lh-aparecer {
+    animation: lh-aparecer 0.35s ease both;
+  }
+
+  @keyframes lh-aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+}

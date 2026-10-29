@@ -38,7 +38,7 @@ const GRUPOS = [
       },
       {
         q: '¿Cómo se calcula mi progreso?',
-        a: 'Dentro del curso, marca cada lección con "Marcar como completada". El progreso es el porcentaje de lecciones completadas. La lista de lecciones marcadas se recuerda en este navegador, así que si entras desde otro equipo tendrás que volver a marcarlas.',
+        a: 'Abre una lección para leerla y presiona "Marcar como completada", o usa el círculo que aparece junto a cada lección. El progreso es el porcentaje de lecciones completadas y se guarda en tu cuenta, así que lo verás igual desde cualquier equipo. El botón "Continuar" te lleva a la siguiente lección pendiente.',
       },
       {
         q: '¿Cómo presento una evaluación?',
@@ -46,7 +46,7 @@ const GRUPOS = [
       },
       {
         q: '¿Puedo repetir una evaluación?',
-        a: 'Sí. La nota nueva reemplaza a la anterior, aunque sea más baja.',
+        a: 'Sí. La nota nueva reemplaza a la anterior, aunque sea más baja. Al enviar verás qué preguntas acertaste y cuál era la respuesta correcta de las que fallaste.',
       },
       {
         q: '¿Qué es el promedio ponderado?',
@@ -71,7 +71,7 @@ const GRUPOS = [
       },
       {
         q: '¿Cómo registro o cambio la nota de un estudiante?',
-        a: 'En la pestaña "Estudiantes" del curso haz clic sobre la nota de la evaluación (o sobre el guion si aún no tiene) y escribe un valor entre 0 y 5.',
+        a: 'En la pestaña "Estudiantes" del curso haz clic sobre la nota de la evaluación (o sobre el guion si aún no tiene) y escribe un valor entre 0 y 5. Con "Descargar notas (CSV)" obtienes la planilla del curso para abrirla en Excel o Google Sheets.',
       },
       {
         q: '¿Por qué no puedo eliminar un curso o una evaluación?',

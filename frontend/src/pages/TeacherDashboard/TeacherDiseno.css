@@ -1,0 +1,78 @@
+/* Ajustes del panel docente: tarjetas con portada por categoría y cifras del curso. */
+
+.teacher-courses-grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.teacher-course-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--lh-radius);
+  box-shadow: var(--lh-shadow);
+  cursor: pointer;
+}
+
+.teacher-course-card::after {
+  display: none;
+}
+
+.teacher-course-card:hover {
+  box-shadow: var(--lh-shadow-hover);
+}
+
+.teacher-course-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.teacher-course-content > p {
+  flex: 1;
+}
+
+.teacher-course-cifras {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 16px 0;
+  padding: 12px 0;
+  border-top: 1px solid var(--lh-line);
+  border-bottom: 1px solid var(--lh-line);
+}
+
+.teacher-course-cifras div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.teacher-course-cifras div + div {
+  border-left: 1px solid var(--lh-line);
+}
+
+.teacher-course-cifras span {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lh-muted);
+}
+
+.teacher-course-cifras strong {
+  font-size: 1.15rem;
+  color: var(--lh-ink);
+}
+
+.teacher-course-button {
+  justify-content: space-between;
+}
+
+@media (max-width: 720px) {
+  .teacher-dashboard-main {
+    width: calc(100% - 32px);
+  }
+
+  .teacher-courses-grid {
+    grid-template-columns: 1fr;
+  }
+}

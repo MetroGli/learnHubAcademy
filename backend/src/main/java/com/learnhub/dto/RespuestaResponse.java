@@ -1,12 +1,20 @@
 package com.learnhub.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * El campo correcta va en null (y no se envía) cuando quien consulta es un estudiante.
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RespuestaResponse {
 
     private Long id;
 
     private String texto;
 
-    private boolean correcta;
+    @JsonProperty("correcta")
+    private Boolean correcta;
 
     private Long preguntaId;
 
@@ -26,11 +34,11 @@ public class RespuestaResponse {
         this.texto = texto;
     }
 
-    public boolean isCorrecta() {
+    public Boolean isCorrecta() {
         return correcta;
     }
 
-    public void setCorrecta(boolean correcta) {
+    public void setCorrecta(Boolean correcta) {
         this.correcta = correcta;
     }
 

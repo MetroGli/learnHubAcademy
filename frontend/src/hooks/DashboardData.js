@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
+  calificacionService,
   cursoService,
+  evaluacionService,
   inscripcionService,
   progresoService,
 } from '../api/resources';
+import { promedioPonderado } from '../utils/notas';
 import { useAuth } from '../context/AuthContext';
 
 export default function useDashboardData() {
@@ -28,11 +31,15 @@ export default function useDashboardData() {
         if (!silencioso) setLoading(true);
         setError(null);
 
-        const [allCourses, allEnrollments, allProgresos] = await Promise.all([
-          cursoService.listar(),
-          inscripcionService.listar(),
-          progresoService.listar(),
-        ]);
+        const [allCourses, allEnrollments, allProgresos, allEvaluaciones, allCalificaciones] =
+          await Promise.all([
+            cursoService.listar(),
+            inscripcionService.listar(),
+            progresoService.listar(),
+            evaluacionService.listar(),
+            calificacionService.listar(),
+          ]);
+        const misNotas = allCalificaciones.filter((c) => c.usuarioId === user.id);
 
         const mias = allEnrollments.filter(
           (inscripcion) => inscripcion.usuarioId === user.id
@@ -47,13 +54,21 @@ export default function useDashboardData() {
         setCourses(
           cursosActivos
             .filter((course) => idsActivos.has(course.id))
-            .map((course) => ({
-              ...course,
-              progreso:
-                allProgresos.find(
-                  (p) => p.usuarioId === user.id && p.cursoId === course.id
-                )?.porcentaje ?? 0,
-            }))
+            .map((course) => {
+              const evaluaciones = allEvaluaciones.filter((e) => e.cursoId === course.id);
+              const ids = new Set(evaluaciones.map((e) => e.id));
+              const notas = misNotas.filter((c) => ids.has(c.evaluacionId));
+              return {
+                ...course,
+                progreso:
+                  allProgresos.find(
+                    (p) => p.usuarioId === user.id && p.cursoId === course.id
+                  )?.porcentaje ?? 0,
+                totalEvaluaciones: evaluaciones.length,
+                presentadas: notas.length,
+                promedio: promedioPonderado(evaluaciones, notas),
+              };
+            })
         );
 
         setCatalogo(cursosActivos.filter((course) => !idsActivos.has(course.id)));
@@ -72,7 +87,7 @@ export default function useDashboardData() {
   }, [cargar]);
 
   // Si el estudiante ya tuvo una inscripción (inactiva) se reactiva en vez de
-  // crear otra, porque el backend no evita inscripciones duplicadas.
+  // crear otra (el backend no permite dos inscripciones al mismo curso).
   const inscribirse = async (cursoId) => {
     const previa = misInscripciones.find((i) => i.cursoId === cursoId);
 

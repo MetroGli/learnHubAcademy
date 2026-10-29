@@ -6,16 +6,20 @@ import Tabs from '../../components/ui/Tabs';
 import UsuariosTab from './UsuariosTab';
 import CursosTab from './CursosTab';
 import InscripcionesTab from './InscripcionesTab';
+import ResumenTab from './ResumenTab';
 import '../../components/ui/ui.css';
 import './AdminDashboard.css';
+import './AdminDiseno.css';
 
 const PLACEHOLDERS = {
+  resumen: 'Buscar un usuario...',
   usuarios: 'Buscar un usuario...',
   cursos: 'Buscar un curso...',
   inscripciones: 'Buscar por estudiante o curso...',
 };
 
 const TABS = [
+  { id: 'resumen', label: 'Resumen' },
   { id: 'usuarios', label: 'Usuarios' },
   { id: 'cursos', label: 'Cursos' },
   { id: 'inscripciones', label: 'Inscripciones' },
@@ -23,7 +27,12 @@ const TABS = [
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
-  const [tab, setTab] = useState('usuarios');
+  const [tab, setTab] = useState('resumen');
+
+  const cambiarTab = (nuevo) => {
+    setTab(nuevo);
+    setSearch('');
+  };
   const [search, setSearch] = useState('');
 
   return (
@@ -35,7 +44,10 @@ export default function AdminDashboard() {
         onLogout={logout}
         search={{
           value: search,
-          onChange: (e) => setSearch(e.target.value),
+          onChange: (e) => {
+            setSearch(e.target.value);
+            if (tab === 'resumen') setTab('usuarios');
+          },
           placeholder: PLACEHOLDERS[tab],
         }}
       />
@@ -44,11 +56,21 @@ export default function AdminDashboard() {
         <Tabs
           tabs={TABS}
           active={tab}
-          onChange={(nuevo) => {
-            setTab(nuevo);
-            setSearch('');
-          }}
+          onChange={cambiarTab}
         />
+
+        {tab === 'resumen' && (
+          <>
+            <div className="lh-hero">
+              <div>
+                <span className="lh-hero-kicker">Administración</span>
+                <h2>Resumen de la plataforma</h2>
+                <p>Así va LearnHub Academy hoy.</p>
+              </div>
+            </div>
+            <ResumenTab onIr={cambiarTab} />
+          </>
+        )}
 
         {tab === 'usuarios' && <UsuariosTab search={search} />}
         {tab === 'cursos' && <CursosTab search={search} />}
